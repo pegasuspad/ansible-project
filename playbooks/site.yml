@@ -1,0 +1,6 @@
+- name: Configure Ansible control nodes
+  hosts: ansible_control_nodes
+  become: true
+  roles:
+    - role: webhook
+    

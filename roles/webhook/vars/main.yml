@@ -1,0 +1,2 @@
+# __webhook_download_url: URL from which to download webhook binary
+__webhook_download_url: https://github.com/adnanh/webhook/releases/download/{{ webhook_version }}/webhook-linux-amd64.tar.gz

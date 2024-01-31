@@ -1,0 +1,21 @@
+# webhook_checksum: MD5 checksum of the webhook binary
+webhook_checksum: 861381a4c3b8b485b56665d9196978d8
+
+# webhook_config_file: full path to the webhook configuration file
+webhook_config_file: /etc/webhook/webhook.conf
+
+# webhook_hook_configs: list of hook configs to deploy
+# See: https://github.com/adnanh/webhook/blob/master/docs/Hook-Definition.md
+webhook_hook_configs: []
+
+# webhook_log: path to the log file to which webhook logs are written, which must be writable by `webhook_user`
+webhook_log: /var/log/webhook.log
+
+# webhook_port: port on which the webhook server will listen
+webhook_port: 9000
+
+# webhook_user: username to run the webhook server as
+webhook_user: root
+
+# webhook_version: default version of webhook to install
+webhook_version: 2.8.1

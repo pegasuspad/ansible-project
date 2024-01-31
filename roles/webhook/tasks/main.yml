@@ -1,0 +1,81 @@
+---
+- name: Download and install webhook binary
+  block:
+  - name: "Download webhook v{{ webhook_version }}"
+    vars:
+      checksum: "md5:{{ webhook_checksum }}"
+      filename: "webhook-{{ webhook_version }}.tgz"
+      mode: "0644"
+      url: "{{ __webhook_download_url }}"
+    ansible.builtin.include_role:
+      name: local.pegasuspad.fetch
+      tasks_from: download.yml
+  - name: Unarchive webhook
+    ansible.builtin.unarchive:
+      creates: /tmp/webhook-linux-amd64
+      dest: /tmp
+      group: root
+      mode: "0755"
+      owner: root
+      remote_src: true
+      src: /tmp/webhook-{{ webhook_version }}.tgz
+  - name: Copy webhook binary
+    ansible.builtin.copy:
+      dest: /usr/local/bin/webhook
+      group: root
+      mode: '0755'
+      owner: root
+      remote_src: true
+      src: /tmp/webhook-linux-amd64/webhook
+
+- name: Install webhook definitions
+  block:
+  - name: Create webhook config dir
+    ansible.builtin.file:
+      path: "{{ webhook_config_file | dirname }}"
+      group: root
+      mode: '0755'
+      owner: root
+      state: directory
+  - name: Create webhook config file
+    ansible.builtin.copy:
+      content: "{{ webhook_hook_configs | to_json(indent=2, sort_keys=True) }}"
+      dest: "{{ webhook_config_file }}"
+      group: root
+      mode: '0644'
+      owner: root
+    notify:
+      - Restart webhook
+
+- name: Install systemd service
+  block:
+  - name: Create logrotate entry for service
+    ansible.builtin.template:
+      dest: /etc/logrotate.d/webhook
+      group: root
+      mode: "0644"
+      owner: root
+      src: etc/logrotate.d/webhook.j2
+  - name: Ensure log file exists
+    ansible.builtin.copy:
+      content: ""
+      dest: "{{ webhook_log }}"
+      force: false
+      group: "{{ webhook_user }}"
+      mode: '0664'
+      owner: root
+  - name: Ensure log file has correct owner and permissions
+    ansible.builtin.file:
+      path: "{{ webhook_log }}"
+      group: "{{ webhook_user }}"
+      mode: '0664'
+      owner: root
+  - name: Create service unit file
+    ansible.builtin.template:
+      dest: /etc/systemd/system/webhook.service
+      group: root
+      mode: "0644"
+      owner: root
+      src: "etc/systemd/system/webhook.service.j2"
+    notify:
+      - Restart webhook

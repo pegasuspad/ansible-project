@@ -1,0 +1,2 @@
+collections:
+- name: git+https://github.com/pegasuspad/ansible-roles.git,main

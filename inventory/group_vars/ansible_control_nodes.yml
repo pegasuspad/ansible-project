@@ -1,0 +1,14 @@
+# global ansible config
+ansible_connection: local
+
+# webhook role
+webhook_hook_configs:
+  - command-working-directory: /home/ops/webhook
+    execute-command: echo 'hello world!'
+    id: provision-host
+    include-command-output-in-response: true
+    pass-environment-to-command:
+      - envname: TARGET_HOST
+        name: remote-addr
+        source: request
+webhook_user: ops
