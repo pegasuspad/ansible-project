@@ -2,20 +2,29 @@
   ansible.builtin.pip:
     name: ansible-runner
 
-- name: Copy run-playbook.sh script
-  ansible.builtin.copy:
-    src: usr/local/bin/run-playbook.sh
-    dest: /usr/local/bin
-    owner: root
+- name: Install yq
+  vars:
+    checksum: "md5:{{ ansible_runner_yq_checksum }}"
+    directory: /usr/local/bin
+    filename: "yq"
     group: root
     mode: "0755"
-- name: Copy unlock.sh script
-  ansible.builtin.copy:
-    src: usr/local/bin/unlock.sh
-    dest: /usr/local/bin
     owner: root
+    url: "{{ __ansible_runner_yq_url }}"
+  ansible.builtin.include_role:
+    name: local.pegasuspad.fetch
+    tasks_from: download.yml
+
+- name: Copy scripts to /usr/local/bin
+  ansible.builtin.copy:
+    dest: /usr/local/bin
     group: root
     mode: "0755"
+    owner: root
+    src: "{{ item }}"
+  with_fileglob:
+    - "usr/local/bin/*"
+
 - name: Copy .profile
   ansible.builtin.copy:
     dest: /home/{{ ansible_runner_user }}

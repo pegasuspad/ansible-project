@@ -1,2 +1,8 @@
 # ansible_runner_user: username as which Ansible should be run
 ansible_runner_user: root
+
+# ansible_runner_yq_checksum: MD5 checksum for the specified version of yq
+ansible_runner_yq_checksum: 900cfcede41a4ee180d7095956405b1e  
+
+# ansible_runner_yq_version: version of the yq utility to install
+ansible_runner_yq_version: 4.40.5

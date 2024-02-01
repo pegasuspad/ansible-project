@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# DESCRIPTION
+# -------------
+# Creates or updates a single key in a Yaml file. The file will be sorted by variable key. If the file already contained a
+# value with the specified key, it will be updated in place. Otherwise, it will be created. If the file does not exist,
+# it will be created (including missing parent directories). Changes are made in-place to the  original file.
+#
+# Example: ./update-yaml test.yml config-file-content "$(cat config.txt)"
+
+# ARGUMENTS
+# -------------
+# $1 = filename
+# $2 = variable key
+# $3 = the variable value
+
+# REFERENCES
+# -------------
+# yq doc on using strenv for special chars: https://mikefarah.gitbook.io/yq/usage/tips-and-tricks#special-characters-in-strings
+# yq sort_keys documentation: https://mikefarah.gitbook.io/yq/operators/sort-keys#sort-keys-of-map
+# reddit post showing merging+sorting: https://www.reddit.com/r/selfhosted/comments/v8jdw2/combine_docker_compose_files_using_yq/
+# ansible-vault encrypt_string docs: https://docs.ansible.com/ansible/latest/vault_guide/vault_encrypting_content.html
+
+mkdir -p $(dirname "$1")
+touch "$1"
+
+VAL=$(echo -n "$3") yq -i ".${2} = strenv(VAL) | sort_keys(..)" "${1}"

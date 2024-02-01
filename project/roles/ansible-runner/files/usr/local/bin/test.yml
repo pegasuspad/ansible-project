@@ -1,0 +1,29 @@
+a: |-
+  this file is really big
+  it has: lot's of text,
+  new lines
+      weird spacing
+  and "other" things { that are problems }
+aa: |-
+  this file is really big
+  it has: lot's of text,
+  new lines
+      weird spacing
+  and "other" things { that are problems }a: |-
+    this file is really big
+    it has: lot's of text,
+    new lines
+        weird spacing
+    and "other" things { that are problems }
+  b: |-
+    this file is really big
+    it has: lot's of text,
+    new lines
+        weird spacing
+    and "other" things { that are problems }
+b: |-
+  this file is really big
+  it has: lot's of text,
+  new lines
+      weird spacing
+  and "other" things { that are problems }

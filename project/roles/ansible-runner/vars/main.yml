@@ -1,0 +1,2 @@
+# __ansible_runner_yq_url: URL from which to download the yq binary
+__ansible_runner_yq_url: https://github.com/mikefarah/yq/releases/download/v{{ ansible_runner_yq_version }}/yq_linux_amd64
