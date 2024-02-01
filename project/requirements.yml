@@ -3,3 +3,4 @@ collections:
 
 roles:
 - name: nginxinc.nginx
+  version: 0.24.1
