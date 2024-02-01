@@ -4,8 +4,6 @@
   roles:
     - role: ansible-runner
     - role: webhook
-      vars:
-        webhook_user: ops
 
 - name: Configure reverse proxy servers
   hosts: reverse_proxy_servers

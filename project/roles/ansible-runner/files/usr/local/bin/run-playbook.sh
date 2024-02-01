@@ -30,7 +30,7 @@ cd "${WORKSPACE_PATH}"
 git pull --rebase
 
 # install any new Galaxy requirements
-ansible-galaxy install -r project/requirements.yml
+ansible-galaxy install --force -r project/requirements.yml
 
 # Connect to the SSH agent. This SSH agent must have been previously started by an out-of-band process. 
 # The environment file should export 'SSH_AUTH_SOCK' and 'SSH_AGENT_PID'.
