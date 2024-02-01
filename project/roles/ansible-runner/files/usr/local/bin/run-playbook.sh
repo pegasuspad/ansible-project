@@ -14,23 +14,16 @@ set -e
 : "${WORKSPACE_PATH:=$HOME/workspace}"
 : "${ARTIFACTS_TO_KEEP:=10}"
 
+PROJECT_PATH="${WORKSPACE_PATH}/project"
+VAULT_PATH="${WORKSPACE_PATH}/vault"
+
 # Load environment variables. These are initially populated by cloud-init, and contain the following values:
 #   - PROJECT_REPOSITORY_URL: url of the ansible project repository
+#   - VAULT_REPOSITORY_URL: url of the ansible vault repository
 source /etc/ansible-runner/environment.sh
 
 : "${PROJECT_REPOSITORY_URL:?Variable PROJECT_REPOSITORY_URL not set or empty}"
-
-# clone repository, if needed
-if [ ! -d "${WORKSPACE_PATH}" ]; then
-  git clone "${PROJECT_REPOSITORY_URL}" "${WORKSPACE_PATH}"
-fi
-
-# get latest version of our Ansible code
-cd "${WORKSPACE_PATH}"
-git pull --rebase
-
-# install any new Galaxy requirements
-ansible-galaxy install --force -r project/requirements.yml
+: "${VAULT_REPOSITORY_URL:?Variable VAULT_REPOSITORY_URL not set or empty}"
 
 # Connect to the SSH agent. This SSH agent must have been previously started by an out-of-band process. 
 # The environment file should export 'SSH_AUTH_SOCK' and 'SSH_AGENT_PID'.
@@ -38,8 +31,27 @@ if [ -f "$HOME/.ssh/environment" ]; then
   source $HOME/.ssh/environment
 fi
 
+# clone repositories, if needed
+if [ ! -d "${PROJECT_PATH}" ]; then
+  mkdir -p "${WORKSPACE_PATH}"
+  git clone "${PROJECT_REPOSITORY_URL}" "${PROJECT_PATH}"
+fi
+if [ ! -d "${VAULT_PATH}" ]; then
+  mkdir -p "${WORKSPACE_PATH}"
+  git clone "${VAULT_REPOSITORY_URL}" "${VAULT_PATH}"
+fi
+
+# get latest version of our Ansible code and variables
+cd "${VAULT_PATH}"
+git pull --rebase
+cd "${PROJECT_PATH}"
+git pull --rebase
+
+# install any new Galaxy requirements
+ansible-galaxy install --force -r project/requirements.yml
+
 ansible-runner run \
-  "${WORKSPACE_PATH}" \
+  "${PROJECT_PATH}" \
   --limit "${TARGET_HOSTS}" \
   --rotate-artifacts "${ARTIFACTS_TO_KEEP}" \
   -p "${PLAYBOOK}"

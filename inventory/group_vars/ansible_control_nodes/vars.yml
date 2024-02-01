@@ -52,5 +52,5 @@ webhook_tls_crt: |
   hAv/j+vzAbNeiHDlOjZVHcePtVJbxPyL6Hp/juKuui+OzEiFqOI1OyWmdJORxSGX
   tJ+MNEXYEagTNmotLTUe2k+Z6BMVeAhJhTiMNWYfJxlqAEezBQ==
   -----END CERTIFICATE-----
-webhook_tls_key: "{{ __vault_webhook_tls_key }}"
+webhook_tls_key: "{{ vault__webhook_tls_key }}"
 webhook_user: ops
