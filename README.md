@@ -1,2 +1,2 @@
-# lab-infrastructure-ansible
+# lab-ansible
 Ansible playbooks for Pegasus lab servers.
