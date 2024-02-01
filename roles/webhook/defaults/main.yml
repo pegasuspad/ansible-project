@@ -1,8 +1,8 @@
 # webhook_checksum: MD5 checksum of the webhook binary
 webhook_checksum: 861381a4c3b8b485b56665d9196978d8
 
-# webhook_config_file: full path to the webhook configuration file
-webhook_config_file: /etc/webhook/webhook.conf
+# webhook_config_dir: full path to the directory where webhook configuration files are stored
+webhook_config_dir: /etc/webhook
 
 # webhook_hook_configs: list of hook configs to deploy
 # See: https://github.com/adnanh/webhook/blob/master/docs/Hook-Definition.md
@@ -13,6 +13,12 @@ webhook_log: /var/log/webhook.log
 
 # webhook_port: port on which the webhook server will listen
 webhook_port: 9000
+
+# webhook_tls_crt: TLS certificate to use when HTTPS is enabled
+webhook_tls_crt: null
+
+# webhook_tls_key: TLS private key to use when HTTPS is enabled
+webhook_tls_key: null
 
 # webhook_user: username to run the webhook server as
 webhook_user: root

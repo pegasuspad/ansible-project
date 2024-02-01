@@ -1,10 +1,10 @@
 [Unit]
 Description=Small server for creating HTTP endpoints (hooks)
 Documentation=https://github.com/adnanh/webhook/
-ConditionPathExists={{ webhook_config_file }}
+ConditionPathExists={{ __webhook_config_file }}
 
 [Service]
-ExecStart=/usr/local/bin/webhook -nopanic -hooks "{{ webhook_config_file }}" -logfile "{{ webhook_log }}" -port "{{ webhook_port }}"
+ExecStart=/usr/local/bin/webhook -nopanic -hooks "{{ __webhook_config_file }}" -logfile "{{ webhook_log }}" -port "{{ webhook_port }}" {{ __webhook_tls_args }}
 User={{ webhook_user }}
 Group={{ webhook_user }}
 

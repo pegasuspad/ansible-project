@@ -1,2 +1,17 @@
+# __webhook_tls_args: TLS configburation arguments for the webhook CLI, which may be empty 
+__webhook_tls_args: "{{ __webhook_tls_enabled | ternary('-secure -key ' + __webhook_tls_key_path + ' -cert ' + __webhook_tls_cert_path, '') }}"
+
+# __webhook_tls_cert_path: filesystem path where the tls cert is stored
+__webhook_tls_cert_path: "{{ webhook_config_dir }}/certs/cert.pem"
+
+# __webhook_config_file: full path to the webhook.conf file
+__webhook_config_file: "{{ webhook_config_dir }}/webhook.conf"
+
 # __webhook_download_url: URL from which to download webhook binary
 __webhook_download_url: https://github.com/adnanh/webhook/releases/download/{{ webhook_version }}/webhook-linux-amd64.tar.gz
+
+# __webhook_tls_enabled: true if TLS is enabled by specifying both "webhook_tls_crt" and "webhook_tls_key"
+__webhook_tls_enabled: "{{ webhook_tls_crt and webhook_tls_key }}"
+
+# __webhook_tls_key_path: filesystem path where the tls key is stored
+__webhook_tls_key_path: "{{ webhook_config_dir }}/certs/key.pem"

@@ -32,7 +32,7 @@
   block:
   - name: Create webhook config dir
     ansible.builtin.file:
-      path: "{{ webhook_config_file | dirname }}"
+      path: "{{ webhook_config_dir }}"
       group: root
       mode: '0755'
       owner: root
@@ -40,12 +40,37 @@
   - name: Create webhook config file
     ansible.builtin.copy:
       content: "{{ webhook_hook_configs | to_json(indent=2, sort_keys=True) }}"
-      dest: "{{ webhook_config_file }}"
+      dest: "{{ __webhook_config_file }}"
       group: root
       mode: '0644'
       owner: root
     notify:
       - Restart webhook service
+
+- name: Install TLS certificates
+  when: __webhook_tls_enabled
+  block:
+  - name: Create certs dir
+    ansible.builtin.file:
+      group: "{{ webhook_user }}"
+      mode: '0755'
+      owner: root
+      path: "{{ webhook_config_dir }}/certs"
+      state: directory
+  - name: Create cert file
+    ansible.builtin.copy:
+      content: "{{ webhook_tls_crt }}"
+      dest: "{{ __webhook_tls_cert_path }}"
+      group: "{{ webhook_user }}"
+      mode: '0644'
+      owner: root
+  - name: Create key file
+    ansible.builtin.copy:
+      content: "{{ webhook_tls_key }}"
+      dest: "{{ __webhook_tls_key_path }}"
+      group: "{{ webhook_user }}"
+      mode: '0640'
+      owner: root
 
 - name: Install systemd service
   block:
