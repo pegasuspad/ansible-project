@@ -2,5 +2,7 @@
   hosts: ansible_control_nodes
   become: true
   roles:
+    - role: ansible-runner
     - role: webhook
-    
+      vars:
+        webhook_user: "{{ ansible_runner_user }}"

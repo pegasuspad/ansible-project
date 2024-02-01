@@ -1,0 +1,2 @@
+# ansible_runner_user: username as which Ansible should be run
+ansible_runner_user: root
