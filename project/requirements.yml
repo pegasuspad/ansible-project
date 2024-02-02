@@ -2,5 +2,7 @@ collections:
 - name: git+https://github.com/pegasuspad/ansible-roles.git,main
 
 roles:
+- name: geerlingguy.certbot
+  version: 5.1.0
 - name: nginxinc.nginx
   version: 0.24.1

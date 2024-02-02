@@ -1,0 +1,15 @@
+---
+# certbot_admin_email: email address used to agree to Let's Encrypt's TOS and subscribe to cert-related notifications
+certbot_admin_email: sean@pegasuspad.com
+
+# certbot_domains: list of certs to generate, each of which should have a 'domains' property that is the domain names to include
+certbot_certs: []
+
+# certbot_testmode: if true, obtain a test cert from staging server
+certbot_testmode: false
+
+certbot_auto_renew: true
+certbot_auto_renew_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
+certbot_auto_renew_hour: "3"
+certbot_auto_renew_minute: "30"
+certbot_auto_renew_options: "--quiet"

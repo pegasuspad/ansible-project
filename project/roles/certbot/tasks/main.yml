@@ -1,0 +1,30 @@
+---
+- name: Install jq
+  ansible.builtin.apt:
+    name: jq
+    state: present
+
+- name: Create hooks
+  block:
+  - name: Create /etc/letsencrypt/renewal-hooks/deploy directory
+    ansible.builtin.file:
+      group: root
+      mode: "0755"
+      owner: root
+      path: /etc/letsencrypt/renewal-hooks/deploy
+      state: directory
+  - name: Create certificate deploy hook
+    ansible.builtin.copy:
+      dest: /etc/letsencrypt/renewal-hooks/deploy
+      group: "root"
+      mode: "0755"
+      owner: "root"
+      src: etc/letsencrypt/renewal-hooks/deploy/test.sh
+
+- name: Install and invoke certbot
+  ansible.builtin.include_role:
+    name: geerlingguy.certbot
+  vars:
+    certbot_create_if_missing: true
+    certbot_create_method: standalone
+    certbot_install_method: snap

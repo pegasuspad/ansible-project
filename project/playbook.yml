@@ -4,6 +4,18 @@
   roles:
     - role: ansible-runner
 
+- name: Configure certbot
+  hosts: certbot
+  become: true
+  pre_tasks:
+    - name: Remove apt-installed packages, if any
+      ansible.builtin.apt:
+        pkg: 
+          - certbot
+        state: absent
+  roles:
+    - role: certbot
+
 - name: Configure reverse proxy servers
   hosts: reverse_proxy_servers
   become: true
