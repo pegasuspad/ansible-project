@@ -4,7 +4,7 @@
     name: jq
     state: present
 
-- name: Create hooks
+- name: Configure hooks
   block:
   - name: Create /etc/letsencrypt/renewal-hooks/deploy directory
     ansible.builtin.file:
@@ -12,14 +12,20 @@
       mode: "0755"
       owner: root
       path: /etc/letsencrypt/renewal-hooks/deploy
-      state: directory
-  - name: Create certificate deploy hook
+  - name: Create global configuration file
     ansible.builtin.copy:
+      dest: /etc/letsencrypt
+      group: "root"
+      mode: "0644"
+      owner: "root"
+      src: etc/letsencrypt/cli.ini
+  - name: Create certificate deploy hook
+    ansible.builtin.template:
       dest: /etc/letsencrypt/renewal-hooks/deploy
       group: "root"
       mode: "0755"
       owner: "root"
-      src: etc/letsencrypt/renewal-hooks/deploy/test.sh
+      src: etc/letsencrypt/renewal-hooks/deploy/00-save-in-vault.sh
 
 - name: Install and invoke certbot
   ansible.builtin.include_role:

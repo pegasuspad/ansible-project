@@ -1,0 +1,2 @@
+# __certbot_url: url of the put-secret webhook
+__certbot_url: "https://{{ certbot_webhook_host }}:{{ certbot_webhook_port }}/hooks/put-secret"

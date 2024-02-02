@@ -1,0 +1,3 @@
+# certbot role
+certbot_webhook_token: "{{ vault__ansible_runner_webhook_token }}"
+certbot_webhook_host: lab-ansible

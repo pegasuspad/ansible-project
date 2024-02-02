@@ -15,6 +15,10 @@
         state: absent
   roles:
     - role: certbot
+      vars:
+        certbot_certs:
+          - domains: ['foo-e.lab.pegasuspad.com']
+        certbot_testmode: true
 
 - name: Configure reverse proxy servers
   hosts: reverse_proxy_servers

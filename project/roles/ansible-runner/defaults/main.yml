@@ -29,7 +29,7 @@ ansible_runner_hook_configs:
     http-methods:
       - POST
     id: put-secret
-    include-command-output-in-response: false
+    include-command-output-in-response: true
     pass-environment-to-command:
       - envname: COMMENT
         name: comment

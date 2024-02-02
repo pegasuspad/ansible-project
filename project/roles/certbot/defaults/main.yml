@@ -8,8 +8,15 @@ certbot_certs: []
 # certbot_testmode: if true, obtain a test cert from staging server
 certbot_testmode: false
 
+# certbot_webhook_host: hostname for the put-secret webhook
+certbot_webhook_host: localhost
+# certbot_webhook_token: token used to authenticate with the 'put-secret' webhook
+certbot_webhook_token: null
+# certbot_webhook_port: port number on which the put-secret webhook is listening
+certbot_webhook_port: 9000
+
 certbot_auto_renew: true
-certbot_auto_renew_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
+certbot_auto_renew_user: "root"
 certbot_auto_renew_hour: "3"
 certbot_auto_renew_minute: "30"
 certbot_auto_renew_options: "--quiet"
