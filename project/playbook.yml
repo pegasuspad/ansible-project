@@ -3,7 +3,6 @@
   become: true
   roles:
     - role: ansible-runner
-    - role: webhook
 
 - name: Configure reverse proxy servers
   hosts: reverse_proxy_servers

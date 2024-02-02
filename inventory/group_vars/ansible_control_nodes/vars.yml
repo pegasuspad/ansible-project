@@ -2,21 +2,6 @@
 ansible_runner_user: ops
 
 # webhook role
-webhook_hook_configs:
-  - execute-command: /usr/local/bin/run-playbook.sh
-    id: provision
-    include-command-output-in-response: true
-    pass-environment-to-command:
-      - envname: TARGET_HOSTS
-        name: host
-        source: url
-    trigger-rule:
-      match:
-        parameter:
-          name: host
-          source: url
-        type: regex
-        regex: "^lab-[-a-zA-Z0-9_.]+$"
 webhook_tls_crt: |
   -----BEGIN CERTIFICATE-----
   MIIF8TCCA9mgAwIBAgIUfkabmIDfZH70SV2YwfnTCqrkDhYwDQYJKoZIhvcNAQEL
@@ -53,4 +38,3 @@ webhook_tls_crt: |
   tJ+MNEXYEagTNmotLTUe2k+Z6BMVeAhJhTiMNWYfJxlqAEezBQ==
   -----END CERTIFICATE-----
 webhook_tls_key: "{{ vault__webhook_tls_key }}"
-webhook_user: ops
