@@ -1,6 +1,9 @@
 # ansible_runner role
 ansible_runner_user: ops
 
+# ansible_runner_webhook_token: required value for the 'X-Token' parameter on incoming webhooks
+ansible_runner_webhook_token: "{{ vault__ansible_runner_webhook_token }}"
+
 # webhook role
 webhook_tls_crt: |
   -----BEGIN CERTIFICATE-----

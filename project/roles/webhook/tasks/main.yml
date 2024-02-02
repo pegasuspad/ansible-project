@@ -41,8 +41,9 @@
     ansible.builtin.copy:
       content: "{{ webhook_hook_configs | to_json(indent=2, sort_keys=True) }}"
       dest: "{{ __webhook_config_file }}"
-      group: root
-      mode: '0644'
+      group: "{{ webhook_user }}"
+      # this file may contain secrets, so we prevent others from reading
+      mode: '0640'
       owner: root
     notify:
       - Restart webhook service

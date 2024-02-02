@@ -44,3 +44,10 @@ ansible_runner_hook_configs:
       - name: Content-Type
         value: application/json
     response-message: '{"status":"OK"}'
+    trigger-rule:
+      match:
+        type: value
+        value: "{{ ansible_runner_webhook_token }}"
+        parameter:
+          source: header
+          name: X-Token
