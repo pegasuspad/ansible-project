@@ -6,8 +6,10 @@
 
 CERTIFICATE_NAME="$(basename "$RENEWED_LINEAGE")"
 SANITIZED_NAME=$(sed -E 's/[^[:alnum:][:space:]]+/_/g' <<<"${CERTIFICATE_NAME}")
+
+PROXY_HOST='{{ certbox_proxy_host }}'
 TOKEN='{{ certbot_webhook_token }}'
-URL='{{ __certbot_url }}'
+URL='{{ __certbot_base_url }}'
 
 # use jq to convert our data into the 'put-secret' format, and then post to our control node
 
@@ -33,5 +35,6 @@ jq --null-input \
   -H 'Content-type: application/json' \
   -H "X-Token: ${TOKEN}" \
   -d @- \
-  "${URL}" >> /var/log/certbot-hook.log
+  "${URL}/put-secret" >> /var/log/certbot-hook.log
 
+curl -i -X POST -H 'Content-type: application/json' "${URL}/provision?host=${PROXY_HOST}"

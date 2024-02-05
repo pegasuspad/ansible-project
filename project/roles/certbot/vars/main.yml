@@ -1,2 +1,17 @@
-# __certbot_url: url of the put-secret webhook
-__certbot_url: "https://{{ certbot_webhook_host }}:{{ certbot_webhook_port }}/hooks/put-secret"
+# __certbot_base_url: base url of the webhook api
+__certbot_base_url: "https://{{ certbot_webhook_host }}:{{ certbot_webhook_port }}/hooks"
+
+# __certbot_config_path: base path for certbot config files
+__certbot_config_path: /etc/letsencrypt
+
+# __certbot_deploy_hooks_path: path for certbot 'deploy' hooks
+__certbot_deploy_hooks_path: '{{ __certbot_hooks_path }}/deploy'
+
+# __certbot_extra_args: extra args to pass to certbot when creating certificates
+__certbot_extra_args: --deploy-hook '{{ __certbot_deploy_hooks_path }}/{{ __certbot_save_in_vault_hook_name }}'
+
+# __certbot_hooks_path: root path for all certbot hooks
+__certbot_hooks_path: '{{ __certbot_config_path }}/renewal-hooks'
+
+# __certbot_save_in_vault_hook_name: name of the deploy hook to save cert data to the vault
+__certbot_save_in_vault_hook_name: 00-save-in-vault.sh
