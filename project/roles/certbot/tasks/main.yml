@@ -12,6 +12,7 @@
       mode: "0755"
       owner: root
       path: '{{ __certbot_deploy_hooks_path }}'
+      state: directory
   - name: Create global configuration file
     ansible.builtin.copy:
       dest: '{{ __certbot_config_path }}'
@@ -21,7 +22,7 @@
       src: etc/letsencrypt/cli.ini
   - name: Create certificate deploy hook
     ansible.builtin.template:
-      dest: ' {{ __certbot_deploy_hooks_path }}'
+      dest: '{{ __certbot_deploy_hooks_path }}'
       group: "root"
       mode: "0755"
       owner: "root"

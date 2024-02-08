@@ -7,15 +7,15 @@
 CERTIFICATE_NAME="$(basename "$RENEWED_LINEAGE")"
 SANITIZED_NAME=$(sed -E 's/[^[:alnum:][:space:]]+/_/g' <<<"${CERTIFICATE_NAME}")
 
-PROXY_HOST='{{ certbox_proxy_host }}'
+PROXY_HOST='{{ certbot_proxy_host }}'
 TOKEN='{{ certbot_webhook_token }}'
-URL='{{ __certbot_base_url }}'
+URL='{{ __certbot_base_url }}/put-secret'
 
 # use jq to convert our data into the 'put-secret' format, and then post to our control node
 
 jq --null-input \
   --arg COMMENT "deploying updated certificate for: ${CERTIFICATE_NAME}" \
-  --arg KEY "vault__certbot_${SANITIZED_NAME}_cert" \
+  --arg KEY "vault__reverse_proxy_tls_certs.\"${CERTIFICATE_NAME}\".cert" \
   --arg VALUE "$(cat "${RENEWED_LINEAGE}/fullchain.pem")" \
   '{comment: $COMMENT, key: $KEY, value: $VALUE}' \
   | \
@@ -27,7 +27,7 @@ jq --null-input \
 
 jq --null-input \
   --arg COMMENT "deploying updated key for: ${CERTIFICATE_NAME}" \
-  --arg KEY "vault__certbot_${SANITIZED_NAME}_key" \
+  --arg KEY "vault__reverse_proxy_tls_certs.\"${CERTIFICATE_NAME}\".key" \
   --arg VALUE "$(cat "${RENEWED_LINEAGE}/privkey.pem")" \
   '{comment: $COMMENT, key: $KEY, value: $VALUE}' \
   | \
@@ -35,6 +35,6 @@ jq --null-input \
   -H 'Content-type: application/json' \
   -H "X-Token: ${TOKEN}" \
   -d @- \
-  "${URL}/put-secret" >> /var/log/certbot-hook.log
+  "${URL}" >> /var/log/certbot-hook.log
 
 curl -i -X POST -H 'Content-type: application/json' "${URL}/provision?host=${PROXY_HOST}"

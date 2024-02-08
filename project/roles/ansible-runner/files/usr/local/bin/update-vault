@@ -15,6 +15,10 @@
 # $1 = name of the Yaml file in which to add/update the value; if this file does not exist it will be created
 # $2 = value suitable to pass to the 'vault-id' paramter of ansible-vault (e.g. "production@/path/to/password")
 # $3 = Yaml key for the variable to create or update
+#
+# NOTE: To pass keys containing periods (.) to $2, enclose the whole parameter in single quotes and the key with
+#   periods in double quotes (e.g. 'domains."example.com".ip')
+#   See: https://mikefarah.gitbook.io/yq/operators/traverse-read#nested-special-characters
 
 # REFERENCES
 # -------------
@@ -39,9 +43,12 @@
 mkdir -p $(dirname "$1")
 touch "$1"
 
+# for the gnarly yq eval syntax, see:
+#   - https://stackoverflow.com/a/73682433
+#   - https://mikefarah.gitbook.io/yq/operators/env-variable-operators#dynamically-update-a-path-from-an-environment-variable
 VAL=$(</dev/stdin)
-echo -n "${VAL}" | ansible-vault encrypt_string \
+KEY=".${3}" \
+ENCRYPTED_VALUE=$(echo -n "${VAL}" | ansible-vault encrypt_string \
   --vault-id "$2" \
-  --stdin-name "$3" \
-  --output - \
+  --output -) yq e -n "eval(strenv(KEY)) = strenv(ENCRYPTED_VALUE)"  \
   | yq ea -i '. as $item ireduce ({}; . * $item ) | sort_keys(..)' "$1" - 

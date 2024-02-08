@@ -1,6 +1,6 @@
 # certbot role
 certbot_certs:
-  - domains: ['foo-e.lab.pegasuspad.com']
+  - domains: ['default.lab.pegasuspad.com']
 certbot_proxy_host: reverse_proxy
 certbot_testmode: true
 certbot_webhook_token: "{{ vault__ansible_runner_webhook_token }}"

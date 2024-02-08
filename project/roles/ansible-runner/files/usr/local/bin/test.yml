@@ -1,29 +1,10 @@
-a: |-
-  this file is really big
-  it has: lot's of text,
-  new lines
-      weird spacing
-  and "other" things { that are problems }
-aa: |-
-  this file is really big
-  it has: lot's of text,
-  new lines
-      weird spacing
-  and "other" things { that are problems }a: |-
-    this file is really big
-    it has: lot's of text,
-    new lines
-        weird spacing
-    and "other" things { that are problems }
-  b: |-
-    this file is really big
-    it has: lot's of text,
-    new lines
-        weird spacing
-    and "other" things { that are problems }
-b: |-
-  this file is really big
-  it has: lot's of text,
-  new lines
-      weird spacing
-  and "other" things { that are problems }
+my:
+  nested.with.dots:
+    key: |-
+      !vault |
+                $ANSIBLE_VAULT;1.2;AES256;ops
+                37653631346232353831356338653866336165363739626639636430326530333439353230646134
+                6330366239663734663435616266366336633662333835650a303432616539333631626231666430
+                65346530616234303738323162663234376235393036363165376136333531633064363030333165
+                3436633437626138360a313435646336653533363535343530363339666561353430643765343031
+                6531
