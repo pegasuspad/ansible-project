@@ -52,8 +52,9 @@ ENCRYPTED_VALUE=$(echo -n "${VAL}" | ansible-vault encrypt_string \
   --output -)
 
 ENCRYPTED_VALUE_WITHOUT_TAG=$(echo "temp_value: ${ENCRYPTED_VALUE}" | yq e '.temp_value' -)
+echo -n "${ENCRYPTED_VALUE_WITHOUT_TAG}" > /home/ops/${3}.txt
 
 export KEY=".${3}"
-export VALUE=${ENCRYPTED_VALUE_WITHOUT_TAG}
+export VALUE="${ENCRYPTED_VALUE_WITHOUT_TAG}"
 yq e -n 'eval(strenv(KEY)) = strenv(VALUE)' | yq e 'eval(strenv(KEY)) tag = "!vault"' - |
   yq ea -i '. as $item ireduce ({}; . * $item ) | sort_keys(..)' "$1" - 
