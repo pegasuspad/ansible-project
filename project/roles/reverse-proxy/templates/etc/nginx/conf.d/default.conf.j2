@@ -1,0 +1,12 @@
+# return 404 for unrecognized HTTP requests
+server {
+    listen 80 default_server;
+    return 404;
+}
+
+# Hang up on any HTTPS requests to unrecognized servers
+# User will see "SSL peer has no certificate for the requested DNS name."
+server {
+    listen 443 default_server proxy_protocol;
+    ssl_reject_handshake on;
+}

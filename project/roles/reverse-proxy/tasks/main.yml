@@ -36,6 +36,14 @@
     src: etc/nginx/security-options.conf.j2
   notify: Reload nginx
 
+- name: Configure default fallback host
+  ansible.builtin.template:
+    dest: /etc/nginx/conf.d/default.conf
+    owner: root
+    group: root
+    mode: '0644'
+    src: etc/nginx/conf.d/default.conf.j2
+  notify: Reload nginx
 - name: Configure virtual hosts
   ansible.builtin.include_tasks:
     file: _configure-virtual-host.yml
