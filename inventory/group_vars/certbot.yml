@@ -1,5 +1,6 @@
 # certbot role
 certbot_certs:
+  - domains: ['coder.lab.pegasuspad.com']
   - domains: ['default.lab.pegasuspad.com']
 certbot_proxy_host: reverse_proxy
 certbot_testmode: true

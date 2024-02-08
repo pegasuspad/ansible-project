@@ -14,5 +14,9 @@ reverse_proxy_virtual_host_configs:
     port: 80
     server_name: default.lab.pegasuspad.com
     upstream_name: default_html
+  - host: localhost
+    port: 80
+    server_name: coder.lab.pegasuspad.com
+    upstream_name: default_html_coder
 
 reverse_proxy_tls_certs: '{{ vault__reverse_proxy_tls_certs }}'
