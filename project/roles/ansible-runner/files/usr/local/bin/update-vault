@@ -47,8 +47,13 @@ touch "$1"
 #   - https://stackoverflow.com/a/73682433
 #   - https://mikefarah.gitbook.io/yq/operators/env-variable-operators#dynamically-update-a-path-from-an-environment-variable
 VAL=$(</dev/stdin)
-KEY=".${3}" \
 ENCRYPTED_VALUE=$(echo -n "${VAL}" | ansible-vault encrypt_string \
   --vault-id "$2" \
-  --output -) yq e -n "eval(strenv(KEY)) = strenv(ENCRYPTED_VALUE)"  \
-  | yq ea -i '. as $item ireduce ({}; . * $item ) | sort_keys(..)' "$1" - 
+  --output -)
+
+ENCRYPTED_VALUE_WITHOUT_TAG=$(echo "temp_value: ${ENCRYPTED_VALUE}" | yq e '.temp_value' -)
+
+export KEY=".${3}"
+export VALUE=${ENCRYPTED_VALUE_WITHOUT_TAG}
+yq e -n 'eval(strenv(KEY)) = strenv(VALUE)' | yq e 'eval(strenv(KEY)) tag = "!vault"' - |
+  yq ea -i '. as $item ireduce ({}; . * $item ) | sort_keys(..)' "$1" - 
