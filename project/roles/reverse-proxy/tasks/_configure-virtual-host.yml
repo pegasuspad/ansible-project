@@ -1,0 +1,28 @@
+---
+- name: 'Configure TLS - {{ item.server_name }}'
+  block:
+    - name: 'Install TLS certificate - {{ item.server_name }}'
+      ansible.builtin.copy:
+        content: '{{ reverse_proxy_tls_certs[item.server_name].cert }}'
+        dest: /etc/nginx/ssl/public/{{ item.server_name }}.pem
+        owner: root
+        group: root
+        mode: '0755'
+      notify: Reload nginx
+    - name: 'Install TLS private key - {{ item.server_name }}'
+      ansible.builtin.copy:
+        content: '{{ reverse_proxy_tls_certs[item.server_name].key }}'
+        dest: /etc/nginx/ssl/private/{{ item.server_name }}.pem
+        owner: root
+        group: root
+        mode: '0700'
+      notify: Reload nginx
+
+- name: 'Configure virtual host - {{ item.server_name }}'
+  ansible.builtin.template:
+    dest: /etc/nginx/conf.d/{{ item.server_name }}.conf
+    owner: root
+    group: root
+    mode: '0644'
+    src: etc/nginx/conf.d/[virtual_host].conf.j2
+  notify: Reload nginx

@@ -3,3 +3,40 @@
   ansible.builtin.include_role:
     name: nginxinc.nginx
 
+- name: 'Create SSL public directory: /etc/nginx/ssl/public'
+  ansible.builtin.file:
+    group: root
+    mode: "0755"
+    owner: root
+    path: /etc/nginx/ssl/public
+    state: directory
+- name: 'Create SSL private directory: /etc/nginx/ssl/private'
+  ansible.builtin.file:
+    group: root
+    mode: "0700"
+    owner: root
+    path: /etc/nginx/ssl/private
+    state: directory
+- name: Generate DH-params
+  community.crypto.openssl_dhparam:
+    group: root
+    mode: '0644'
+    owner: root
+    path: /etc/nginx/ssl/public/dhparams.pem
+    size: 4096
+    state: present
+  when: reverse_proxy_support_tls12
+  notify: Reload nginx
+- name: Apply SSL options
+  ansible.builtin.template:
+    dest: /etc/nginx/security-options.conf
+    owner: root
+    group: root
+    mode: '0644'
+    src: etc/nginx/security-options.conf.j2
+  notify: Reload nginx
+
+- name: Configure virtual hosts
+  ansible.builtin.include_tasks:
+    file: _configure-virtual-host.yml
+  loop: '{{ reverse_proxy_virtual_host_configs }}'

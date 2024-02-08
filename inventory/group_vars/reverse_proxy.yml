@@ -1,0 +1,96 @@
+---
+reverse_proxy_virtual_host_configs:
+  - extra_location_config:
+      - key: add_header
+        value: X-Frame-Options SAMEORIGIN
+      - key: add_header
+        value: X-XSS-Protection "1; mode=block"
+      # Forward the Authorization header for the Google Reader API.
+      - key: proxy_pass_header
+        value: Authorization
+      - key: proxy_set_header
+        value: Authorization $http_authorization
+    host: localhost
+    port: 80
+    server_name: default.lab.pegasuspad.com
+    upstream_name: default_html
+
+reverse_proxy_tls_certs: '{{ vault__reverse_proxy_tls_certs }}'
+
+  # default.lab.pegasuspad.com: 
+  #   cert: |
+  #     -----BEGIN CERTIFICATE-----
+  #     MIIDwjCCA0egAwIBAgISKw3xp3lGCv3iFzjWD5JMVni1MAoGCCqGSM49BAMDMFUx
+  #     CzAJBgNVBAYTAlVTMSAwHgYDVQQKExcoU1RBR0lORykgTGV0J3MgRW5jcnlwdDEk
+  #     MCIGA1UEAxMbKFNUQUdJTkcpIEVyc2F0eiBFZGFtYW1lIEUxMB4XDTI0MDIwNzIx
+  #     NDkyM1oXDTI0MDUwNzIxNDkyMlowJTEjMCEGA1UEAxMaZGVmYXVsdC5sYWIucGVn
+  #     YXN1c3BhZC5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAQsH+WMEFnRfbG+
+  #     yrSdTXVxePguPBhqyqM2eqtPSvQt7tJfvRoJb0dKKobd4ksaP33Sh86vXknLC1GN
+  #     NDpUxhGoo4ICJTCCAiEwDgYDVR0PAQH/BAQDAgeAMB0GA1UdJQQWMBQGCCsGAQUF
+  #     BwMBBggrBgEFBQcDAjAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBTVUs3yDY7Pcp/a
+  #     uTTnY+lZ/7MXBDAfBgNVHSMEGDAWgBTr+SXCgChm4m0IkjLzwuGtw/81RTBdBggr
+  #     BgEFBQcBAQRRME8wJQYIKwYBBQUHMAGGGWh0dHA6Ly9zdGctZTEuby5sZW5jci5v
+  #     cmcwJgYIKwYBBQUHMAKGGmh0dHA6Ly9zdGctZTEuaS5sZW5jci5vcmcvMCUGA1Ud
+  #     EQQeMByCGmRlZmF1bHQubGFiLnBlZ2FzdXNwYWQuY29tMBMGA1UdIAQMMAowCAYG
+  #     Z4EMAQIBMIIBBQYKKwYBBAHWeQIEAgSB9gSB8wDxAHYAqmywxcn0xJ2NjqkMORfg
+  #     1wrZIhC/BX9BUJOCzDUMmEYAAAGNhcL41gAABAMARzBFAiBQ78aF5gaS9H9kx6GF
+  #     c3GhcO3qHcZscKoXn09UDJbDrAIhANa5rti1q2zlXzf0QdTtEU/Np+G+cMBr5M6e
+  #     LcsscT3oAHcAsMyD5aX5fWuvfAnMKEkEhyrH6IsTLGNQt8b9JuFsbHcAAAGNhcL5
+  #     GwAABAMASDBGAiEA0g/5r19+FXJKicy/NOzbc5ldHUPTzTt4g9+W7rGtsnQCIQDt
+  #     un45t6HxOs5cbrLlA+xsm2KiWviZbmGdhzvw26QsMzAKBggqhkjOPQQDAwNpADBm
+  #     AjEAvxm71WtijhBO1A2XyPtobMA5hl7yQ1dhotaieZC26U7qKaZZo5g7lMXTc82/
+  #     s9WnAjEAp//gFGqPIKaPZY3+PHFbzKoVjQx8Z1AazARp9+4l90V7oZgUmkBRzxos
+  #     TRpToKJO
+  #     -----END CERTIFICATE-----
+  #     -----BEGIN CERTIFICATE-----
+  #     MIIDCzCCApGgAwIBAgIRALRY4992FVxZJKOJ3bpffWIwCgYIKoZIzj0EAwMwaDEL
+  #     MAkGA1UEBhMCVVMxMzAxBgNVBAoTKihTVEFHSU5HKSBJbnRlcm5ldCBTZWN1cml0
+  #     eSBSZXNlYXJjaCBHcm91cDEkMCIGA1UEAxMbKFNUQUdJTkcpIEJvZ3VzIEJyb2Nj
+  #     b2xpIFgyMB4XDTIwMDkwNDAwMDAwMFoXDTI1MDkxNTE2MDAwMFowVTELMAkGA1UE
+  #     BhMCVVMxIDAeBgNVBAoTFyhTVEFHSU5HKSBMZXQncyBFbmNyeXB0MSQwIgYDVQQD
+  #     ExsoU1RBR0lORykgRXJzYXR6IEVkYW1hbWUgRTEwdjAQBgcqhkjOPQIBBgUrgQQA
+  #     IgNiAAT9v/PJUtHOTk28nXCXrpP665vI4Z094h8o7R+5E6yNajZa0UubqjpZFoGq
+  #     u785/vGXj6mdfIzc9boITGusZCSWeMj5ySMZGZkS+VSvf8VQqj+3YdEu4PLZEjBA
+  #     ivRFpEejggEQMIIBDDAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUH
+  #     AwIGCCsGAQUFBwMBMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFOv5JcKA
+  #     KGbibQiSMvPC4a3D/zVFMB8GA1UdIwQYMBaAFN7Ro1lkDsGaNqNG7rAQdu+ul5Vm
+  #     MDYGCCsGAQUFBwEBBCowKDAmBggrBgEFBQcwAoYaaHR0cDovL3N0Zy14Mi5pLmxl
+  #     bmNyLm9yZy8wKwYDVR0fBCQwIjAgoB6gHIYaaHR0cDovL3N0Zy14Mi5jLmxlbmNy
+  #     Lm9yZy8wIgYDVR0gBBswGTAIBgZngQwBAgEwDQYLKwYBBAGC3xMBAQEwCgYIKoZI
+  #     zj0EAwMDaAAwZQIwXcZbdgxcGH9rTErfSTkXfBKKygU0yO7OpbuNeY1id0FZ/hRY
+  #     N5fdLOGuc+aHfCsMAjEA0P/xwKr6NQ9MN7vrfGAzO397PApdqfM7VdFK18aEu1xm
+  #     3HMFKzIR8eEPsMx4smMl
+  #     -----END CERTIFICATE-----
+  #     -----BEGIN CERTIFICATE-----
+  #     MIIEmTCCAoGgAwIBAgIRAJJVIr2Em/sOzhBD2bEnEJwwDQYJKoZIhvcNAQELBQAw
+  #     ZjELMAkGA1UEBhMCVVMxMzAxBgNVBAoTKihTVEFHSU5HKSBJbnRlcm5ldCBTZWN1
+  #     cml0eSBSZXNlYXJjaCBHcm91cDEiMCAGA1UEAxMZKFNUQUdJTkcpIFByZXRlbmQg
+  #     UGVhciBYMTAeFw0yMDA5MDQwMDAwMDBaFw0yNTA5MTUxNjAwMDBaMGgxCzAJBgNV
+  #     BAYTAlVTMTMwMQYDVQQKEyooU1RBR0lORykgSW50ZXJuZXQgU2VjdXJpdHkgUmVz
+  #     ZWFyY2ggR3JvdXAxJDAiBgNVBAMTGyhTVEFHSU5HKSBCb2d1cyBCcm9jY29saSBY
+  #     MjB2MBAGByqGSM49AgEGBSuBBAAiA2IABDr0vsNZAswMWDiWwNOgMNBxT9rSwSyj
+  #     6BUKkfQDLJJdZwtve+XkKsnEfgAr2HpQPK38BVzmzB2Fydt1ywfnQIzyVTidjnLI
+  #     01ajuHXA1rvq0NlSC3ZyUWMqZ1dTDE4VcaOB7TCB6jAOBgNVHQ8BAf8EBAMCAQYw
+  #     DwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQU3tGjWWQOwZo2o0busBB2766XlWYw
+  #     HwYDVR0jBBgwFoAUtfNl8v6wCpIf+zx980SgrGMlwxQwNgYIKwYBBQUHAQEEKjAo
+  #     MCYGCCsGAQUFBzAChhpodHRwOi8vc3RnLXgxLmkubGVuY3Iub3JnLzArBgNVHR8E
+  #     JDAiMCCgHqAchhpodHRwOi8vc3RnLXgxLmMubGVuY3Iub3JnLzAiBgNVHSAEGzAZ
+  #     MAgGBmeBDAECATANBgsrBgEEAYLfEwEBATANBgkqhkiG9w0BAQsFAAOCAgEAMkp5
+  #     etLOxM4+a6EqX2hmAd+yNUSNCA7+MYn/VrwJnpkWe8zuC+fILYMYRuByWs/zeFmo
+  #     56Jc7td5N9I+QN0rYSeEbgdTAMeaBjZ3P6eJxM1Aa76Abrj5ULfq8XhOE37SYgFb
+  #     ZS9YPOQ4wuisCXHrrmu4ZdZJmzXIQX562xBeJxf0o4LBqS2C3SmpkPY+f8lTtmFO
+  #     /I6qSSl8T5XyNE385zNXaRd8rMJqNC9fIHDjPeJMIaou0TZYT0uNb9OZ7ZhT7smQ
+  #     SaHcGxtK0SVmJvGNagc6RldrHFbemLbwVpeI4NopRHynQqzkVtsfAlK8VD92SYbp
+  #     olFsJZWuHVkHgccuI1Hx0+RUp1VGj1PPV+0JmGZeG2ybLloU2rjjMbRmkNjTxub2
+  #     U1vzCGpBSaBfYQLjLHDwQk1AqRENlZxDqCkXFro8eqT6TFHdtw27KIT+ov1Qyofi
+  #     q3Uj1w7tPpcFMSDfiWNRE0XGYCjELDo19oPqQthIMQ5X+/3YpCqZceR4vMR6n9ol
+  #     Lp/0KmjAzqU+LqD2fmFLttKvZUxW8aECTGIcDHGCPJDklwDW3l7DUQ08Wj5Fh/KE
+  #     f5c9fF3u87WUAJu4Vh9C+ewXZtzL0LD46lYgpn7fv5w9sLS4zQ3CIC3udjJ5Gc/v
+  #     8VhPQaU1Enn7NW+4IHnfSeP6G5rzLEtl0PreC4k=
+  #     -----END CERTIFICATE-----
+  #   key: |
+      -----BEGIN PRIVATE KEY-----
+      MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg6gV3qLXDGPXWzusQ
+      00t/rUWDuI5JWL73YPDCSqcfTemhRANCAAQsH+WMEFnRfbG+yrSdTXVxePguPBhq
+      yqM2eqtPSvQt7tJfvRoJb0dKKobd4ksaP33Sh86vXknLC1GNNDpUxhGo
+      -----END PRIVATE KEY-----

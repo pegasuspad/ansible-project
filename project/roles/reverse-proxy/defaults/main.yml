@@ -1,0 +1,2 @@
+# reverse_proxy_support_tls12: if true, TLSv1.2 will be supported; otherwise, only TLSv1.3
+reverse_proxy_support_tls12: false

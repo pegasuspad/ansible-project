@@ -17,16 +17,8 @@
     - role: certbot
 
 - name: Configure reverse proxy servers
-  hosts: reverse_proxy_servers
+  hosts: reverse_proxy
   become: true
   gather_facts: true
   roles:
-    - nginxinc.nginx
-
-# - name: lab-nginx
-#   hosts: test
-#   become: true
-#   tasks:
-#     - name: Install NGINX
-#       ansible.builtin.include_role:
-#         name: nginxinc.nginx
+    - reverse-proxy
