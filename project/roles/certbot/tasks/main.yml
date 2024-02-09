@@ -4,6 +4,12 @@
     name: jq
     state: present
 
+- name: Install node for automation
+  ansible.builtin.include_role:
+    name: automation
+  vars:
+    automation_user: ansible
+
 - name: Configure certbot deploy hooks
   block:
   - name: 'Create deploy hooks directory: {{ __certbot_deploy_hooks_path }}'
@@ -20,19 +26,20 @@
       mode: "0644"
       owner: "root"
       src: etc/letsencrypt/cli.ini
-  - name: Create certificate deploy hook
+  - name: Create certificate deploy hooks
     ansible.builtin.template:
       dest: '{{ __certbot_deploy_hooks_path }}'
       group: "root"
       mode: "0755"
       owner: "root"
-      src: etc/letsencrypt/renewal-hooks/deploy/{{ __certbot_save_in_vault_hook_name }}
+      src: '{{ item }}'
+    with_fileglob:
+      - '../templates/etc/letsencrypt/renewal-hooks/deploy/*'
 
 - name: Install and invoke certbot
   ansible.builtin.include_role:
     name: geerlingguy.certbot
   vars:
-    certbot_create_extra_args: '{{ __certbot_extra_args }}'
     certbot_create_if_missing: true
     certbot_create_method: standalone
     certbot_install_method: snap

@@ -14,4 +14,4 @@ __certbot_extra_args: --deploy-hook '{{ __certbot_deploy_hooks_path }}/{{ __cert
 __certbot_hooks_path: '{{ __certbot_config_path }}/renewal-hooks'
 
 # __certbot_save_in_vault_hook_name: name of the deploy hook to save cert data to the vault
-__certbot_save_in_vault_hook_name: 00-save-in-vault.sh
+__certbot_save_in_vault_hook_name: 50-trigger-vault-update.ts

@@ -1,0 +1,2 @@
+# automation_user: user for whom the npm packages will be installed, this defaults to ansible_user.
+automation_user: '{{ ansible_user }}'
