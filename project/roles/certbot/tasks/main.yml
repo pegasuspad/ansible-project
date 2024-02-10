@@ -4,11 +4,9 @@
     name: jq
     state: present
 
-- name: Install node for automation
-  ansible.builtin.include_role:
-    name: automation
-  vars:
-    automation_user: ansible
+- name: Install node utilities
+  ansible.builtin.import_tasks:
+    file: install-node-utilities.yml
 
 - name: Configure certbot deploy hooks
   block:

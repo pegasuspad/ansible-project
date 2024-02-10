@@ -15,3 +15,21 @@ __certbot_hooks_path: '{{ __certbot_config_path }}/renewal-hooks'
 
 # __certbot_save_in_vault_hook_name: name of the deploy hook to save cert data to the vault
 __certbot_save_in_vault_hook_name: 50-trigger-vault-update.ts
+
+# name of the role utilities are being installed for, inferred from the role path
+__certbot_node_role_name: '{{ role_path | basename }}'
+
+# path from which to laod (templated) role-specific node config
+__certbot_node_config_source: '_node-utilities-config'
+
+# path from which to laod role-specific node scripts
+__certbot_node_package_source: '_node-utilities'
+
+# path in which role-specific node utility configuration is installed
+__certbot_node_config_destination: /etc/opt/{{ __certbot_node_role_name }}-role
+
+# path in which role-specific node utility data will be saved
+__certbot_node_data_path: /var/opt/{{ __certbot_node_role_name }}-role
+
+# path in which role-specific node utility packages are installed
+__certbot_node_package_destination: /opt/{{ __certbot_node_role_name }}-role

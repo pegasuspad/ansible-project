@@ -14,6 +14,9 @@
           - certbot
         state: absent
   roles:
+    - role: automation
+      vars:
+        automation_user: ansible
     - role: certbot
 
 - name: Configure reverse proxy servers

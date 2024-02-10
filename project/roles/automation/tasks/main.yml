@@ -3,8 +3,5 @@
     name: geerlingguy.nodejs
   vars:
     nodejs_install_npm_user: '{{ automation_user }}'
-    nodejs_npm_global_packages:
-      - name: ts-node
-        version: 10.9.2
     nodejs_version: 18.x
     

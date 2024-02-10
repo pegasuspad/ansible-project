@@ -1,2 +1,4 @@
 # created by ansible-runner on the server
 artifacts
+
+**/node_modules

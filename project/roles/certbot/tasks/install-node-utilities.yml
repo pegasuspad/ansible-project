@@ -1,0 +1,46 @@
+- name: 'Install configuration files to: {{ __certbot_node_config_destination }}'
+  block:
+    - name: 'Create configuration directory: {{ __certbot_node_config_destination }}'
+      ansible.builtin.file:
+        mode: '0755'
+        owner: root
+        group: root
+        path: '{{ __certbot_node_config_destination }}'
+        state: directory
+    - name: Copy configuration templates
+      ansible.builtin.template:
+        dest: '{{ __certbot_node_config_destination }}/{{ item | ansible.builtin.basename | ansible.builtin.splitext | first }}'
+        group: 'root'
+        mode: '0644'
+        owner: 'root'
+        src: '{{ item }}'
+      with_fileglob:
+        - ../templates/_node-utilities-config/*.j2
+
+- name: 'Create data directory: {{ __certbot_node_data_path }}'
+  ansible.builtin.file:
+    mode: '0755'
+    owner: root
+    group: root
+    path: '{{ __certbot_node_data_path }}'
+    state: directory
+
+- name: 'Install scripts package to: {{ __certbot_node_package_destination }}'
+  block:
+    - name: Copy scripts package
+      ansible.builtin.copy:
+        dest: '{{ __certbot_node_package_destination }}'
+        directory_mode: '0755'
+        group: 'root'
+        mode: 'preserve'
+        owner: 'root'
+        src: '{{ __certbot_node_package_source }}/'
+    # - name: Make '/bin' scripts executable
+    #   ansible.builtin.file:
+    #     mode: '0755'
+    #     path: '{{ __certbot_node_package_destination }}/bin'
+    #     recurse: yes
+    #     state: directory
+    - name: Install npm packages
+      community.general.npm:
+        path: '{{ __certbot_node_package_destination }}'

@@ -1,4 +1,4 @@
-#!/usr/local/lib/npm/bin/ts-node
+#!/usr/bin/env -S npx ts-node
 
 // Adds a domain to the list of those with updated certs. The list is a json file containing a single array.
 // The location of this file is intended to be set via an Ansible template variable (`certbot_updated_domains_file`).
@@ -13,10 +13,25 @@
 //  - RENEWED_LINEAGE: full path to the updated certs (e.g. /etc/letsencrypt/live/foo.pegasuspad.com)
 //
 
+import { config } from 'dotenv'
+
 import path from 'path'
 import fs from 'fs'
 
+config({
+  path: ['/etc/opt/certbot-role/env', path.join(__dirname, '..', 'default.env')]
+})
+
+const updatedDomainsFile = process.env.UPDATED_DOMAINS_FILE
 const renewedLineage = process.env.RENEWED_LINEAGE
+
+if (!updatedDomainsFile) {
+  throw new Error('Missing required environment variable: UPDATED_DOMAINS_FILE')
+}
+
+if (!renewedLineage) {
+  throw new Error('Missing required environment variable: RENEWED_LINEAGE')
+}
 
 const loadExistingTriggerFile = (filePath: string): string[] => {
   if (!fs.existsSync(filePath)) {
@@ -39,17 +54,12 @@ const loadExistingTriggerFile = (filePath: string): string[] => {
   }
 }
 
-const DEFAULT_TRIGGER_FILE = '/etc/letsencrypt/updated-certs.json'
-const triggerFile = '{{ certbot_updated_domains_file }}'.startsWith('{') ? DEFAULT_TRIGGER_FILE : '{{ certbot_updated_domains_file }}'
 
-if (!renewedLineage) {
-  throw new Error('Missing required environment variable: RENEWED_LINEAGE')
-}
 
 const host = path.basename(renewedLineage)
-console.log(`Adding '${host}' to certificate trigger file: ${triggerFile}`)
+console.log(`Adding '${host}' to certificate trigger file: ${updatedDomainsFile}`)
 
-const domains = Array.from(new Set([...loadExistingTriggerFile(triggerFile), host])).sort()
+const domains = Array.from(new Set([...loadExistingTriggerFile(updatedDomainsFile), host])).sort()
 console.log(`New domains to update: ${JSON.stringify(domains)}`)
 
-fs.writeFileSync(triggerFile, JSON.stringify(domains, null, 2), 'utf-8')
+fs.writeFileSync(updatedDomainsFile, JSON.stringify(domains, null, 2), 'utf-8')
