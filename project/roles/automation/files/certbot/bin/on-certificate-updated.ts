@@ -17,49 +17,29 @@ import { config } from 'dotenv'
 
 import path from 'path'
 import fs from 'fs'
+import { loadUpdatedCertificates } from '../src/load-updated-certificates'
 
 config({
   path: ['/etc/opt/certbot-role/env', path.join(__dirname, '..', 'default.env')]
 })
 
-const updatedDomainsFile = process.env.UPDATED_DOMAINS_FILE
+const updatedCertificatesFile = process.env.UPDATED_CERTIFICATES_FILE
 const renewedLineage = process.env.RENEWED_LINEAGE
 
-if (!updatedDomainsFile) {
-  throw new Error('Missing required environment variable: UPDATED_DOMAINS_FILE')
+if (!updatedCertificatesFile) {
+  throw new Error('Missing required environment variable: UPDATED_CERTIFICATES_FILE')
 }
 
 if (!renewedLineage) {
   throw new Error('Missing required environment variable: RENEWED_LINEAGE')
 }
 
-const loadExistingTriggerFile = (filePath: string): string[] => {
-  if (!fs.existsSync(filePath)) {
-    console.log('No pre-existing trigger file found. Creating a new one.')
-    return []
-  }
-
-  const oldContent = fs.readFileSync(filePath, 'utf-8')
-  try {
-    const parsed = JSON.parse(oldContent)
-    if (!Array.isArray(parsed)) {
-      console.warn(`Pre-existing trigger file did not contain a valid JSON array. Ignoring content: ${oldContent}`)
-      return []
-    }
-
-    return parsed.map(value => String(value));
-  } catch (err) {
-    console.warn(`Error parsing pre-existing trigger file`, err)
-    return []
-  }
-}
-
-
+const updatedCertificates = loadUpdatedCertificates();
 
 const host = path.basename(renewedLineage)
-console.log(`Adding '${host}' to certificate trigger file: ${updatedDomainsFile}`)
+console.log(`Adding '${host}' to certificate update file: ${updatedCertificatesFile}`)
 
-const domains = Array.from(new Set([...loadExistingTriggerFile(updatedDomainsFile), host])).sort()
-console.log(`New domains to update: ${JSON.stringify(domains)}`)
+const newUpdatedCertificates = Array.from(new Set([...updatedCertificates, host])).sort()
+console.log(`New updated certificates list: ${JSON.stringify(newUpdatedCertificates)}`)
 
-fs.writeFileSync(updatedDomainsFile, JSON.stringify(domains, null, 2), 'utf-8')
+fs.writeFileSync(updatedCertificatesFile, JSON.stringify(newUpdatedCertificates, null, 2), 'utf-8')

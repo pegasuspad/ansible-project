@@ -4,10 +4,6 @@
     name: jq
     state: present
 
-- name: Install node utilities
-  ansible.builtin.import_tasks:
-    file: install-node-utilities.yml
-
 - name: Configure certbot deploy hooks
   block:
   - name: 'Create deploy hooks directory: {{ __certbot_deploy_hooks_path }}'

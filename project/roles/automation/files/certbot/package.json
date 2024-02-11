@@ -1,7 +1,7 @@
 {
   "name": "@pegasuspad/certbot-role",
   "version": "1.0.0",
-  "description": "utilities installed on hosts with the 'certbot' role",
+  "description": "utilities supporting hosts with the 'certbot' role",
   "license": "MIT",
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",

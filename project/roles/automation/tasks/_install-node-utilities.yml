@@ -1,0 +1,54 @@
+- name: Check if package has config
+  delegate_to: localhost
+  stat:
+    path: '{{ role_path }}/templates/{{ package_name }}'
+  register: stat_config
+
+- name: Check if package has code
+  delegate_to: localhost
+  stat:
+    path: '{{ role_path }}/files/{{ package_name }}'
+  register: stat_code
+
+- name: 'Install configuration files to: {{ __automation_config_destination }}/{{ package_name }}'
+  when: stat_config.stat.exists
+  block:
+    - name: 'Create configuration directory: {{ __automation_config_destination }}/{{ package_name }}'
+      ansible.builtin.file:
+        mode: '0755'
+        owner: root
+        group: root
+        path: '{{ __automation_config_destination }}/{{ package_name }}'
+        state: directory
+    - name: Copy configuration templates
+      ansible.builtin.template:
+        dest: '{{ __automation_config_destination }}/{{ package_name }}/{{ item | ansible.builtin.basename | ansible.builtin.splitext | first }}'
+        group: 'root'
+        mode: '0644'
+        owner: 'root'
+        src: '{{ item }}'
+      with_fileglob:
+        - ../templates/{{ package_name }}/*.j2
+
+- name: 'Create data directory: {{ __automation_data_path }}/{{ package_name }}'
+  ansible.builtin.file:
+    mode: '0755'
+    owner: root
+    group: root
+    path: '{{ __automation_data_path }}/{{ package_name }}'
+    state: directory
+
+- name: 'Install scripts package to: {{ __automation_package_destination }}/{{ package_name }}'
+  when: stat_code.stat.exists
+  block:
+    - name: Copy scripts package
+      ansible.builtin.copy:
+        dest: '{{ __automation_package_destination }}/{{ package_name }}'
+        directory_mode: '0755'
+        group: 'root'
+        mode: 'preserve'
+        owner: 'root'
+        src: '{{ package_name }}/'
+    - name: Install npm packages
+      community.general.npm:
+        path: '{{ __automation_package_destination }}/{{ package_name }}'

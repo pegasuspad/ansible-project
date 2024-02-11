@@ -1,0 +1,8 @@
+# Base path to which node package config is installed. Each package's config is installed to a subdirectory.
+__automation_config_destination: /etc/opt
+
+# Base path to which node package data is saved. Each package's data is saved to a subdirectory.
+__automation_data_path: /var/opt
+
+# Base path to which node packages are installed. Each package is installed to a subdirectory.
+__automation_package_destination: /opt

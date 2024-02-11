@@ -4,4 +4,10 @@
   vars:
     nodejs_install_npm_user: '{{ automation_user }}'
     nodejs_version: 18.x
-    
+
+- name: Install node utilities
+  ansible.builtin.include_tasks:
+    file: _install-node-utilities.yml
+  loop: '{{ automation_packages }}'
+  loop_control:
+    loop_var: package_name
