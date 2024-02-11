@@ -2,6 +2,11 @@
   hosts: ansible_control_nodes
   become: true
   roles:
+    - role: automation
+      vars:
+        automation_packages:
+          - ansible-runner
+        automation_user: '{{ ansible_runner_user }}'
     - role: ansible-runner
 
 - name: Configure certbot
