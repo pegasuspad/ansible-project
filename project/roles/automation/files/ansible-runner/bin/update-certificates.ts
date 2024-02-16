@@ -1,6 +1,12 @@
 #!/usr/bin/env -S npx --silent ts-node
 
-import { execSync } from 'node:child_process'
+import '../src/config'
+
+import { logger } from '../src/logger'
+import { readRepositoryFile } from '../src/github/read-repository-file';
+import { writeRepositoryFile } from '../src/github/write-repository-file';
+import { updateYamlValues } from '../src/update-yaml-values';
+import { vaultEncrypt } from '../src/vault-encrypt';
 
 // Webhook handler which takes a set of key/certificate pairs for one or more domains, and deploys them.
 // Deployment of a certificate includes the following steps:
@@ -76,37 +82,87 @@ const parsePayload = (): UpdatedCertificatesPayload => {
 }
 
 const handler = async () => {
-  const payload = parsePayload();
-  // payload.certificates.forEach(certificate => {
-  //   console.log(`Updated: ${certificate.domain}`)
-  // })
+  const token = process.env.GITHUB_TOKEN
+  const owner = process.env.VAULT_REPOSITORY_OWNER
+  const repository = process.env.VAULT_REPOSITORY_NAME
+  const path = process.env.VAULT_REPOSITORY_PATH ?? 'vault.yml'
+  const vaultId = process.env.VAULT_ID
+  const passwordFile = process.env.VAULT_PASSWORD_FILE
 
-  payload.certificates.forEach(({ certificate, domain, key }) => {
-    try {
-      console.log(execSync('/etc/webhook/hooks/put-secret', {
-        stdio: ['ignore', 'pipe', 'pipe'],
-        env: {
-          COMMENT: `updating certificate for ${domain}`,
-          KEY: `vault__reverse_proxy_tls_certs.${domain}.cert`,
-          VALUE: certificate
-        }
-      }))
-    
-      console.log(execSync('/etc/webhook/hooks/put-secret', {
-        stdio: ['ignore', 'pipe', 'pipe'],
-        env: {
-          COMMENT: `updating key for ${domain}`,
-          KEY: `vault__reverse_proxy_tls_certs.${domain}.key`,
-          VALUE: key
-        }
-      }))
-    } catch (err: any) {
-      throw new Error(`Failed to update certificate for ${domain}: ${err.message}`)
+  if (!token) {
+    throw new Error('Missing configuration: GITHUB_TOKEN')
+  }
+  if (!owner) {
+    throw new Error('Missing configuration: VAULT_REPOSITORY_OWNER')
+  }
+  if (!repository) {
+    throw new Error('Missing configuration: VAULT_REPOSITORY_NAME')
+  }
+  if (!passwordFile) {
+    throw new Error('Missing configuration: VAULT_PASSWORD_FILE')
+  }
+
+  const payload = parsePayload();
+
+  const updatedDomains = payload.certificates.map(certificate => certificate.domain)
+  logger.info({ domains: updatedDomains }, `Updating TLS certificates for ${updatedDomains.length} domains.`);
+
+  logger.info('Encrypting server keys for storage in Vault.')
+  const withEncryptedKeys = await Promise.all(payload.certificates.map(async ({ key, ...certificate }) => {
+    const encryptedKey = await vaultEncrypt({
+      passwordFile,
+      value: key,
+      vaultId
+    })
+
+    return {
+      ...certificate,
+      key,
+      encryptedKey
     }
+  }))
+
+  logger.info('Retrieving previous vault content.')
+  const oldVault = await readRepositoryFile({
+    owner,
+    path,
+    repository,
+    token
   })
 
+  const valuesToUpdate = withEncryptedKeys.flatMap(({ certificate, domain, encryptedKey }) => {
+    return [
+      {
+        key: ['__vault__', 'reverse_proxy_tls_certs', domain, 'cert'],
+        value: certificate
+      },
+      {
+        key: ['__vault__', 'reverse_proxy_tls_certs', domain, 'key'],
+        tag: '!vault',
+        value: encryptedKey
+      }
+    ]
+  })
+
+  logger.info('Save new vault content.')
+  const newVault = updateYamlValues({
+    content: oldVault,
+    updatedValues: valuesToUpdate
+  })
+
+  await writeRepositoryFile({
+    content: newVault,
+    message: `Updated TLS certificates: ${updatedDomains}`,
+    owner,
+    path,
+    repository,
+    token
+  })
+
+  logger.info({ domains: updatedDomains }, 'Certificate update complete.')
+
   return {
-    updatedCertificates: payload.certificates.map(certificate => certificate.domain)
+    updatedCertificates: updatedDomains
   }
 }
 

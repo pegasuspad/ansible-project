@@ -1,6 +1,6 @@
 import * as yaml from 'yaml'
 
-export interface KeyValuePair {
+export interface ValueToUpdate {
   /**
    * Key within the Yaml key to update. Nested paths may be represented as an string array (with each element
    * containing the key at one level of nesting) or as a dot-separated path (such as key.child.subkey). The
@@ -31,7 +31,7 @@ export interface UpdateYamlValueOptions {
   /**
    * Set of key/value pairs to update in the document.
    */
-  updatedValues: KeyValuePair[]
+  updatedValues: ValueToUpdate[]
 }
 
 /**

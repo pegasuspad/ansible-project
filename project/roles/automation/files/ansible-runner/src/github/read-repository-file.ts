@@ -38,7 +38,7 @@ export const readRepositoryFile = async ({
   repository,
   token
 }: ReadRepositoryFileOptions): Promise<string> => {
-  logger.info({ 
+  logger.debug({ 
     path,
     repository: `${owner}/${repository}`, 
   }, `Reading file from Github.`)

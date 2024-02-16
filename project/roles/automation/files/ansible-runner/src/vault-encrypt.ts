@@ -61,7 +61,7 @@ export const vaultEncrypt = async ({
     throw new Error(message)
   }
 
-  logger.info(`Encrypting value for storage in Ansible vault.`)
+  logger.debug(`Encrypting value for storage in Ansible vault.`)
 
   try {
     const vaultProcessPromise = execFile('ansible-vault', [
@@ -86,7 +86,7 @@ export const vaultEncrypt = async ({
     const document = yaml.parseDocument(encryptedContent);
     const ciphertext = String(document.get('ciphertext'))
 
-    logger.info({ ciphertext: { length: ciphertext.length} }, `Encryption successful.`)
+    logger.debug({ ciphertext: { length: ciphertext.length} }, `Encryption successful.`)
 
     return ciphertext
   } catch (err: any) {

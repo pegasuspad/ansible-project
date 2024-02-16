@@ -103,10 +103,10 @@ export const writeRepositoryFile = async ({
     repository: `${owner}/${repository}`, 
   }
 
-  logger.info(baseLog, `Writing file to Github.`)
+  logger.debug(baseLog, `Writing file to Github.`)
 
   const sha = await getBlobSha(options)
-  logger.info(baseLog, `Got blob sha: ${sha}`)
+  logger.debug(baseLog, `Got blob sha: ${sha}`)
 
   const commitmessage = message ?? `Automated update to ${path}`
 
@@ -148,5 +148,5 @@ export const writeRepositoryFile = async ({
     throw new Error(failureMessage)
   }
 
-  logger.info(baseLog, 'File written successfully.')
+  logger.debug(baseLog, 'File written successfully.')
 }
