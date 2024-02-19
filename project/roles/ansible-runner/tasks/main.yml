@@ -15,13 +15,6 @@
     name: local.pegasuspad.fetch
     tasks_from: download.yml
 
-- name: Install webhook application
-  ansible.builtin.include_role:
-    name: webhook
-  vars:
-    webhook_hook_configs: "{{ ansible_runner_hook_configs }}"
-    webhook_user: "{{ ansible_runner_user }}"
-
 - name: Copy scripts to /usr/local/bin
   ansible.builtin.copy:
     dest: /usr/local/bin

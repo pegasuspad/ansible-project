@@ -1,7 +1,7 @@
 {
-  "name": "@pegasuspad/ansible-runner-role",
+  "name": "@pegasuspad/vault-manager-role",
   "version": "1.0.0",
-  "description": "utilities supporting hosts with the 'ansible-runner' role",
+  "description": "utilities supporting hosts with the 'vault-manager' role",
   "license": "MIT",
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",

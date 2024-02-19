@@ -152,7 +152,7 @@ const handler = async () => {
 
   await writeRepositoryFile({
     content: newVault,
-    message: `Updated TLS certificates: ${updatedDomains}`,
+    message: `Updated TLS certificates: ${updatedDomains.join(', ')}`,
     owner,
     path,
     repository,

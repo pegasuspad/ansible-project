@@ -71,6 +71,7 @@ export const updateYamlValues = ({
   sortDeep(document.contents);
 
   return yaml.stringify(document, {
-    blockQuote: 'literal'
+    blockQuote: 'literal',
+    collectionStyle: 'block'
   })
 }

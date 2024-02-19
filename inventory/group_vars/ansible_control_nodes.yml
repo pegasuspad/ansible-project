@@ -2,11 +2,18 @@
 ansible_runner_user: ops
 
 # ansible_runner_webhook_token: required value for the 'X-Token' parameter on incoming webhooks
-ansible_runner_webhook_token: "{{ vault__ansible_runner_webhook_token }}"
+ansible_runner_webhook_token: "{{ __vault__.ansible_runner_webhook_token }}"
 
 # certbot role
-certbot_webhook_token: "{{ vault__ansible_runner_webhook_token }}"
+certbot_webhook_token: "{{ __vault__.ansible_runner_webhook_token }}"
 certbot_webhook_host: lab-ansible
+
+# vault-manager role
+vault_manager_github_token: "{{ __vault__.vault_manager_github_token }}"
+vault_manager_password_file: /var/lib/ansible/vault-password
+vault_manager_repository_name: lab-vault
+vault_manager_repository_owner: pegasuspad
+vault_manager_vault_id: lab
 
 # webhook role
 webhook_tls_crt: |
@@ -44,4 +51,4 @@ webhook_tls_crt: |
   hAv/j+vzAbNeiHDlOjZVHcePtVJbxPyL6Hp/juKuui+OzEiFqOI1OyWmdJORxSGX
   tJ+MNEXYEagTNmotLTUe2k+Z6BMVeAhJhTiMNWYfJxlqAEezBQ==
   -----END CERTIFICATE-----
-webhook_tls_key: "{{ vault__webhook_tls_key }}"
+webhook_tls_key: "{{ __vault__.webhook_tls_key }}"

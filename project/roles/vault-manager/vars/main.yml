@@ -1,0 +1,20 @@
+vault_manager_webhook_configs:
+  - command-working-directory: /etc/webhook
+    execute-command: /opt/vault-manager/bin/update-certificates.ts
+    id: update-certificates
+    include-command-output-in-response: true
+    include-command-output-in-response-on-error: true
+    pass-environment-to-command:
+      - envname: PAYLOAD 
+        source: entire-payload
+    response-headers:
+      - name: Content-Type
+        value: application/json
+    trigger-rule:
+      match:
+        type: value
+        value: "{{ ansible_runner_webhook_token }}"
+        parameter:
+          source: header
+          name: X-Token
+  
