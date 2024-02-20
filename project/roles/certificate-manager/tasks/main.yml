@@ -1,16 +1,16 @@
 ---
 - name: Setup node.js automation scripts
   block:
-    - name: 'Create configuration directory: {{ __certbot_scripts_config_path }}'
+    - name: 'Create configuration directory: {{ __certificate_manager_scripts_config_path }}'
       ansible.builtin.file:
         mode: '0755'
         owner: root
         group: root
-        path: '{{ __certbot_scripts_config_path }}'
+        path: '{{ __certificate_manager_scripts_config_path }}'
         state: directory
     - name: Copy configuration templates
       ansible.builtin.template:
-        dest: '{{ __certbot_scripts_config_path }}/{{ item | ansible.builtin.basename | ansible.builtin.splitext | first }}'
+        dest: '{{ __certificate_manager_scripts_config_path }}/{{ item | ansible.builtin.basename | ansible.builtin.splitext | first }}'
         group: 'root'
         mode: '0644'
         owner: 'root'
@@ -19,7 +19,7 @@
         - ../templates/etc/opt/certbot/*.j2
     - name: Copy scripts package
       ansible.builtin.copy:
-        dest: '{{ __certbot_scripts_package_path }}'
+        dest: '{{ __certificate_manager_scripts_package_path }}'
         directory_mode: '0755'
         group: 'root'
         mode: 'preserve'
@@ -27,13 +27,13 @@
         src: '__nodejs/'
     - name: Install npm packages
       community.general.npm:
-        path: '{{ __certbot_scripts_package_path }}'
+        path: '{{ __certificate_manager_scripts_package_path }}'
     - name: 'Create node.js scripts data directory'
       ansible.builtin.file:
         mode: '0755'
         owner: root
         group: root
-        path: '{{ __certbot_scripts_data_path }}'
+        path: '{{ __certificate_manager_scripts_data_path }}'
         state: directory
 
 - name: Configure cron to save updated certificates in Ansible configuration
@@ -45,13 +45,13 @@
         job: "0"
     - name: Install any new certificates every minute
       ansible.builtin.cron:
-        job: "/opt/certbot/bin/deploy-updated-certificates.ts >>{{ certbot_log_file }} 2>&1"
+        job: "/opt/certbot/bin/deploy-updated-certificates.ts >>{{ certificate_manager_log_file }} 2>&1"
         name: "deploy updated certificates"
         state: present
 
 - name: Create global certbot configuration file
   ansible.builtin.template:
-    dest: '{{ __certbot_config_path }}'
+    dest: '{{ __certificate_manager_config_path }}'
     group: "root"
     mode: "0644"
     owner: "root"
@@ -61,7 +61,10 @@
   ansible.builtin.include_role:
     name: geerlingguy.certbot
   vars:
-    certbot_admin_email: "{{ certbot_admin_email }}"
+    certbot_admin_email: "{{ certificate_manager_admin_email }}"
+    certbot_auto_renew: false
+    certbot_certs: "{{ certificate_manager_certs }}"
     certbot_create_if_missing: true
     certbot_create_method: standalone
     certbot_install_method: snap
+    certbot_testmode: "{{ certificate_manager_testmode }}"

@@ -1,0 +1,28 @@
+---
+# certificate_manager_admin_email: email address used to agree to Let's Encrypt's TOS and subscribe to cert-related notifications
+certificate_manager_admin_email: sean@pegasuspad.com
+
+# certificate_manager_domains: list of certs to generate, each of which should have a 'domains' property that is the domain names to include
+certificate_manager_certs: []
+
+# file in which certbot scripts write logs
+certificate_manager_log_file: /var/log/certbot-hook.log
+
+# pino log level for the certbot hook scripts
+certificate_manager_log_level: info
+
+# certbox_proxy_host: name of the reverse proxy host or group to reprovision when certs change, or null to skip reprovisioning
+certificate_manager_proxy_host: null
+
+# certificate_manager_testmode: if true, obtain a test cert from staging server
+certificate_manager_testmode: false
+
+# certificate_manager_updated_domains_file: full path to the file containing the list of domains with updated (but not deployed) certs
+certificate_manager_updated_domains_file: /var/opt/certbot/updated-certificates.json
+
+# certificate_manager_webhook_host: hostname for the put-secret webhook, or null to skip updating the vault
+certificate_manager_webhook_host: null
+# certificate_manager_config_manager_token: webhook token for the config manager server
+certificate_manager_config_manager_token: null
+# certificate_manager_webhook_port: port number on which the put-secret webhook is listening
+certificate_manager_webhook_port: 9000

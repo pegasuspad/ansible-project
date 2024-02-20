@@ -29,7 +29,7 @@
     - role: automation
       vars:
         automation_user: ansible
-    - role: certbot
+    - role: certificate-manager
 
 - name: Configure reverse proxy servers
   hosts: reverse_proxy
