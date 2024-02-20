@@ -1,4 +1,4 @@
-#!/usr/bin/env -S npx --silent ts-node
+#!/usr/bin/env -S npx --yes --silent ts-node
 
 import '../src/config'
 
@@ -8,11 +8,8 @@ import { writeRepositoryFile } from '../src/github/write-repository-file';
 import { updateYamlValues } from '../src/update-yaml-values';
 import { vaultEncrypt } from '../src/vault-encrypt';
 
-// Webhook handler which takes a set of key/certificate pairs for one or more domains, and deploys them.
-// Deployment of a certificate includes the following steps:
-//
-//   - Save each key/certificate pair in the Ansible vault
-//   - Reconfigure reverse-proxy hosts with the new vault values, after all certificate pairs are saved
+// Webhook handler which takes a set of key/certificate pairs for one or more domains, and updates them
+// in the Ansible configuration.
 //
 // This handler expects to receive an environment variable named `PAYLOAD`. This is a JSON string defining
 // an object with the following fields:
