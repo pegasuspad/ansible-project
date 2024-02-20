@@ -2,19 +2,6 @@
   ansible.builtin.pip:
     name: ansible-runner
 
-- name: Install yq
-  vars:
-    checksum: "md5:{{ ansible_runner_yq_checksum }}"
-    directory: /usr/local/bin
-    filename: "yq"
-    group: root
-    mode: "0755"
-    owner: root
-    url: "{{ __ansible_runner_yq_url }}"
-  ansible.builtin.include_role:
-    name: local.pegasuspad.fetch
-    tasks_from: download.yml
-
 - name: Copy scripts to /usr/local/bin
   ansible.builtin.copy:
     dest: /usr/local/bin
@@ -24,25 +11,6 @@
     src: "{{ item }}"
   with_fileglob:
     - "usr/local/bin/*"
-
-- name: Install webhook handlers
-  block:
-  - name: Create /etc/webhook/hooks directory
-    ansible.builtin.file:
-      group: root
-      mode: "0755"
-      owner: root
-      path: /etc/webhook/hooks
-      state: directory
-  - name: Copy hook handlers to /etc/webhook/hooks
-    ansible.builtin.copy:
-      dest: /etc/webhook/hooks
-      group: root
-      mode: "0755"
-      owner: root
-      src: "{{ item }}"
-    with_fileglob:
-      - "etc/webhook/hooks/*"
 
 - name: Copy .profile
   ansible.builtin.copy:
