@@ -3,7 +3,7 @@ config_manager_webhook_configs:
     execute-command: /opt/config-manager/bin/update-secrets.ts
     http-methods:
       - PUT
-    id: put-secret
+    id: update-secrets
     include-command-output-in-response: true
     include-command-output-in-response-on-error: true
     pass-environment-to-command:
