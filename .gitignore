@@ -2,3 +2,7 @@
 artifacts
 
 **/node_modules
+
+# ignore testing data files
+**/.data
+**/.env.local

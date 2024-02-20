@@ -2,6 +2,8 @@
   ansible.builtin.include_role:
     name: geerlingguy.nodejs
   vars:
+    nodejs_npm_global_packages:
+      - ts-node
     nodejs_install_npm_user: '{{ automation_user }}'
     nodejs_version: 18.x
 

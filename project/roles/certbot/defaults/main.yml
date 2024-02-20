@@ -5,6 +5,12 @@ certbot_admin_email: sean@pegasuspad.com
 # certbot_domains: list of certs to generate, each of which should have a 'domains' property that is the domain names to include
 certbot_certs: []
 
+# file in which certbot scripts write logs
+certbot_log_file: /var/log/certbot-hook.log
+
+# pino log level for the certbot hook scripts
+certbot_log_level: debug
+
 # certbox_proxy_host: name of the reverse proxy host or group to reprovision when certs change, or null to skip reprovisioning
 certbot_proxy_host: null
 

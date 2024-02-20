@@ -28,8 +28,6 @@
   roles:
     - role: automation
       vars:
-        automation_packages:
-          - certbot
         automation_user: ansible
     - role: certbot
 

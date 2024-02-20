@@ -1,4 +1,4 @@
-#!/usr/bin/env -S npx ts-node
+#!/usr/bin/env -S npx --yes ts-node
 
 // Adds a domain to the list of those with updated certs. The list is a json file containing a single array.
 // The location of this file is intended to be set via an Ansible template variable (`certbot_updated_domains_file`).
@@ -13,15 +13,12 @@
 //  - RENEWED_LINEAGE: full path to the updated certs (e.g. /etc/letsencrypt/live/foo.pegasuspad.com)
 //
 
-import { config } from 'dotenv'
+import '../src/config'
 
 import path from 'path'
 import fs from 'fs'
+import { logger } from '../src/logger'
 import { loadUpdatedCertificates } from '../src/load-updated-certificates'
-
-config({
-  path: ['/etc/opt/certbot-role/env', path.join(__dirname, '..', 'default.env')]
-})
 
 const updatedCertificatesFile = process.env.UPDATED_CERTIFICATES_FILE
 const renewedLineage = process.env.RENEWED_LINEAGE
@@ -37,9 +34,11 @@ if (!renewedLineage) {
 const updatedCertificates = loadUpdatedCertificates();
 
 const host = path.basename(renewedLineage)
-console.log(`Adding '${host}' to certificate update file: ${updatedCertificatesFile}`)
+logger.info(`Adding '${host}' to certificate update file: ${updatedCertificatesFile}`)
 
 const newUpdatedCertificates = Array.from(new Set([...updatedCertificates, host])).sort()
-console.log(`New updated certificates list: ${JSON.stringify(newUpdatedCertificates)}`)
+logger.info(`New updated certificates list: ${JSON.stringify(newUpdatedCertificates)}`)
 
 fs.writeFileSync(updatedCertificatesFile, JSON.stringify(newUpdatedCertificates, null, 2), 'utf-8')
+
+console.log(`Updated certificate change list. See ${process.env.LOG_FILE} for details.`)

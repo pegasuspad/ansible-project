@@ -1,34 +1,48 @@
 ---
-- name: Install jq
-  ansible.builtin.apt:
-    name: jq
-    state: present
-
-- name: Configure certbot deploy hooks
+- name: Setup node.js automation scripts
   block:
-  - name: 'Create deploy hooks directory: {{ __certbot_deploy_hooks_path }}'
-    ansible.builtin.file:
-      group: root
-      mode: "0755"
-      owner: root
-      path: '{{ __certbot_deploy_hooks_path }}'
-      state: directory
-  - name: Create global configuration file
-    ansible.builtin.copy:
-      dest: '{{ __certbot_config_path }}'
-      group: "root"
-      mode: "0644"
-      owner: "root"
-      src: etc/letsencrypt/cli.ini
-  - name: Create certificate deploy hooks
-    ansible.builtin.template:
-      dest: '{{ __certbot_deploy_hooks_path }}'
-      group: "root"
-      mode: "0755"
-      owner: "root"
-      src: '{{ item }}'
-    with_fileglob:
-      - '../templates/etc/letsencrypt/renewal-hooks/deploy/*'
+    - name: 'Create configuration directory: {{ __certbot_scripts_config_path }}'
+      ansible.builtin.file:
+        mode: '0755'
+        owner: root
+        group: root
+        path: '{{ __certbot_scripts_config_path }}'
+        state: directory
+    - name: Copy configuration templates
+      ansible.builtin.template:
+        dest: '{{ __certbot_scripts_config_path }}/{{ item | ansible.builtin.basename | ansible.builtin.splitext | first }}'
+        group: 'root'
+        mode: '0644'
+        owner: 'root'
+        src: '{{ item }}'
+      with_fileglob:
+        - ../templates/etc/opt/certbot/*.j2
+    - name: Copy scripts package
+      ansible.builtin.copy:
+        dest: '{{ __certbot_scripts_package_path }}'
+        directory_mode: '0755'
+        group: 'root'
+        mode: 'preserve'
+        owner: 'root'
+        src: '__nodejs/'
+    - name: Install npm packages
+      community.general.npm:
+        path: '{{ __certbot_scripts_package_path }}'
+    - name: 'Create node.js scripts data directory'
+      ansible.builtin.file:
+        mode: '0755'
+        owner: root
+        group: root
+        path: '{{ __certbot_scripts_data_path }}'
+        state: directory
+
+- name: Create global certbot configuration file
+  ansible.builtin.template:
+    dest: '{{ __certbot_config_path }}'
+    group: "root"
+    mode: "0644"
+    owner: "root"
+    src: etc/letsencrypt/cli.ini
 
 - name: Install and invoke certbot
   ansible.builtin.include_role:
