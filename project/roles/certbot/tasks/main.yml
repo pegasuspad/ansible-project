@@ -61,6 +61,7 @@
   ansible.builtin.include_role:
     name: geerlingguy.certbot
   vars:
+    certbot_admin_email: "{{ certbot_admin_email }}"
     certbot_create_if_missing: true
     certbot_create_method: standalone
     certbot_install_method: snap
