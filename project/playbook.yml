@@ -5,16 +5,16 @@
     - role: automation
       vars:
         automation_packages:
-          - vault-manager
+          - config-manager
         automation_user: '{{ ansible_runner_user }}'
     - role: webhook
       vars:
-        webhook_hook_configs: "{{ ansible_runner_hook_configs + vault_manager_webhook_configs }}"
+        webhook_hook_configs: "{{ ansible_runner_hook_configs + config_manager_webhook_configs }}"
         webhook_user: "{{ ansible_runner_user }}"
-    - role: vault-manager
+    - role: config-manager
       vars:
-        vault_manager_log_file: "{{ webhook_log }}"
-        vault_manager_webhook_token: "{{ ansible_runner_webhook_token }}"
+        config_manager_log_file: "{{ webhook_log }}"
+        config_manager_webhook_token: "{{ ansible_runner_webhook_token }}"
     - role: ansible-runner
 
 - name: Configure certbot

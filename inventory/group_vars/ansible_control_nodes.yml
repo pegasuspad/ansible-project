@@ -8,12 +8,12 @@ ansible_runner_webhook_token: "{{ __vault__.ansible_runner_webhook_token }}"
 certbot_webhook_token: "{{ __vault__.ansible_runner_webhook_token }}"
 certbot_webhook_host: lab-ansible
 
-# vault-manager role
-vault_manager_github_token: "{{ __vault__.vault_manager_github_token }}"
-vault_manager_password_file: /var/lib/ansible/vault-password
-vault_manager_repository_name: lab-vault
-vault_manager_repository_owner: pegasuspad
-vault_manager_vault_id: lab
+# config-manager role
+config_manager_github_token: "{{ __vault__.config_manager_github_token }}"
+config_manager_password_file: /var/lib/ansible/vault-password
+config_manager_repository_name: lab-vault
+config_manager_repository_owner: pegasuspad
+config_manager_vault_id: lab
 
 # webhook role
 webhook_tls_crt: |

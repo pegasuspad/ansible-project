@@ -1,6 +1,6 @@
-vault_manager_webhook_configs:
+config_manager_webhook_configs:
   - command-working-directory: /etc/webhook
-    execute-command: /opt/vault-manager/bin/update-certificates.ts
+    execute-command: /opt/config-manager/bin/update-certificates.ts
     id: update-certificates
     include-command-output-in-response: true
     include-command-output-in-response-on-error: true

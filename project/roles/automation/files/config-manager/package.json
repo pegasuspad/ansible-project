@@ -1,7 +1,7 @@
 {
-  "name": "@pegasuspad/vault-manager-role",
+  "name": "@pegasuspad/config-manager-role",
   "version": "1.0.0",
-  "description": "utilities supporting hosts with the 'vault-manager' role",
+  "description": "utilities supporting hosts with the 'config-manager' role",
   "license": "MIT",
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",
