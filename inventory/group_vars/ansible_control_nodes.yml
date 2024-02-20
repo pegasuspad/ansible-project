@@ -1,10 +1,6 @@
 # ansible_runner role
 ansible_runner_user: ops
 
-# certbot role
-certbot_webhook_token: "{{ __vault__.config_manager_webhook_token }}"
-certbot_webhook_host: lab-ansible
-
 # config-manager role
 config_manager_github_token: "{{ __vault__.config_manager_github_token }}"
 config_manager_password_file: /var/lib/ansible/vault-password

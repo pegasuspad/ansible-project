@@ -9,7 +9,7 @@ certbot_certs: []
 certbot_log_file: /var/log/certbot-hook.log
 
 # pino log level for the certbot hook scripts
-certbot_log_level: debug
+certbot_log_level: info
 
 # certbox_proxy_host: name of the reverse proxy host or group to reprovision when certs change, or null to skip reprovisioning
 certbot_proxy_host: null
@@ -22,8 +22,8 @@ certbot_updated_domains_file: '/etc/letsencrypt/updated-certs.json'
 
 # certbot_webhook_host: hostname for the put-secret webhook, or null to skip updating the vault
 certbot_webhook_host: null
-# certbot_webhook_token: token used to authenticate with the 'put-secret' webhook
-certbot_webhook_token: null
+# certbot_config_manager_token: webhook token for the config manager server
+certbot_config_manager_token: null
 # certbot_webhook_port: port number on which the put-secret webhook is listening
 certbot_webhook_port: 9000
 

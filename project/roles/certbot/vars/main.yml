@@ -1,6 +1,9 @@
 # __certbot_config_path: base path for certbot config files
 __certbot_config_path: /etc/letsencrypt
 
+# directory in which certificates are installed (in <DOMAIN>/privkey.pem and <DOMAIN>/fullchain.pem for key and cert, respectively)
+__certbot_certificate_path: '{{ __certbot_config_path }}/live'
+
 # __certbot_deploy_hook: full path to the deploy hook which handles installing new certs
 __certbot_deploy_hook: /opt/certbot/bin/on-certificate-updated.ts
 

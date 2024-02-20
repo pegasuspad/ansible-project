@@ -36,6 +36,19 @@
         path: '{{ __certbot_scripts_data_path }}'
         state: directory
 
+- name: Configure cron to save updated certificates in Ansible configuration
+  block:
+    - name: Allow nodejs to accept self-signed certs
+      ansible.builtin.cron:
+        name: NODE_TLS_REJECT_UNAUTHORIZED
+        env: yes
+        job: "0"
+    - name: Install any new certificates every minute
+      ansible.builtin.cron:
+        job: "/opt/certbot/bin/deploy-updated-certificates.ts >>{{ certbot_log_file }} 2>&1"
+        name: "deploy updated certificates"
+        state: present
+
 - name: Create global certbot configuration file
   ansible.builtin.template:
     dest: '{{ __certbot_config_path }}'

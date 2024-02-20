@@ -12,14 +12,73 @@
 //  - UPDATED_CERTIFICATES_FILE: path to a JSON file containing an array of certs to update
 //
 
-import { config } from 'dotenv'
+import '../src/config'
 
 import path from 'path'
 import fs from 'fs'
 import { loadUpdatedCertificates } from '../src/load-updated-certificates'
+import { logger } from '../src/logger'
 
-config({
-  path: ['/etc/opt/certbot-role/env', path.join(__dirname, '..', 'default.env')]
-})
+const handler = async () => {
+  const certificateInstallUrl = process.env.CERTIFICATE_INSTALL_URL
+  const certificatePath = process.env.CERTIFICATE_PATH
+  const configManagerToken = process.env.CONFIG_MANAGER_TOKEN
+  const updatedCertificatesFile = process.env.UPDATED_CERTIFICATES_FILE
 
-const updatedCertificates = loadUpdatedCertificates();
+  if (!certificateInstallUrl) {
+    throw new Error('Missing required environment variable: CERTIFICATE_INSTALL_URL')
+  }
+  if (!certificatePath) {
+    throw new Error('Missing required environment variable: CERTIFICATE_PATH')
+  }
+  if (!configManagerToken) {
+    throw new Error('Missing required environment variable: CONFIG_MANAGER_TOKEN')
+  }
+  if (!updatedCertificatesFile) {
+    throw new Error('Missing required environment variable: UPDATED_CERTIFICATES_FILE')
+  }
+
+  logger.debug(`Checking for updated certificates in ${updatedCertificatesFile}`)
+
+  const updatedCertificates = loadUpdatedCertificates();
+  if (updatedCertificates.length > 0) {
+    logger.info(`Found ${updatedCertificates.length} updated certificate(s): ${updatedCertificates.join(', ')}`)
+
+    const payload = {
+      certificates: updatedCertificates.map((domain) => {
+        const certificate = fs.readFileSync(path.join(certificatePath, domain, 'fullchain.pem'), 'utf-8');
+        const key = fs.readFileSync(path.join(certificatePath, domain, 'privkey.pem'), 'utf-8');
+
+        return {
+          domain,
+          certificate,
+          key
+        }
+      })
+    }
+
+    const result = await fetch(certificateInstallUrl, {
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Token': configManagerToken
+      },
+      method: 'PUT',
+    })
+
+    if (!result.ok) {
+      logger.error(`Certificate ebhook invocation failed: ${result.status} ${result.statusText}`)
+      throw new Error(`Certificate ebhook invocation failed: ${result.status} ${result.statusText}`)
+    }
+
+    // @todo race condition if a cert updates at the same time
+    fs.writeFileSync(updatedCertificatesFile, JSON.stringify([], null, 2), 'utf-8')
+    logger.info('Successfully stored new certificates.')
+  }
+}
+
+handler()
+  .catch(err => {
+    console.error(`Failed to update certificates: ${String(err.message)}`, err)
+    process.exit(1)
+  })
