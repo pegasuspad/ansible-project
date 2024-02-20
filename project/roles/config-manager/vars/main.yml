@@ -1,6 +1,28 @@
 config_manager_webhook_configs:
-  - command-working-directory: /etc/webhook
+  - command-working-directory: /opt/config-manager
+    execute-command: /opt/config-manager/bin/update-secrets.ts
+    http-methods:
+      - PUT
+    id: put-secret
+    include-command-output-in-response: true
+    include-command-output-in-response-on-error: true
+    pass-environment-to-command:
+      - envname: PAYLOAD 
+        source: entire-payload
+    response-headers:
+      - name: Content-Type
+        value: application/json
+    trigger-rule:
+      match:
+        type: value
+        value: "{{ config_manager_webhook_token }}"
+        parameter:
+          source: header
+          name: X-Token
+  - command-working-directory: /opt/config-manager
     execute-command: /opt/config-manager/bin/update-certificates.ts
+    http-methods:
+      - PUT
     id: update-certificates
     include-command-output-in-response: true
     include-command-output-in-response-on-error: true
@@ -13,8 +35,7 @@ config_manager_webhook_configs:
     trigger-rule:
       match:
         type: value
-        value: "{{ ansible_runner_webhook_token }}"
+        value: "{{ config_manager_webhook_token }}"
         parameter:
           source: header
           name: X-Token
-  

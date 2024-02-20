@@ -14,7 +14,6 @@
     - role: config-manager
       vars:
         config_manager_log_file: "{{ webhook_log }}"
-        config_manager_webhook_token: "{{ ansible_runner_webhook_token }}"
     - role: ansible-runner
 
 - name: Configure certbot

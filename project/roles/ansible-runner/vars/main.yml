@@ -18,30 +18,3 @@ ansible_runner_hook_configs:
           source: url
         type: regex
         regex: "^lab-[-a-zA-Z0-9_.]+$"
-  - command-working-directory: /etc/webhook
-    execute-command: /etc/webhook/hooks/put-secret
-    http-methods:
-      - POST
-    id: put-secret
-    include-command-output-in-response: true
-    pass-environment-to-command:
-      - envname: COMMENT
-        name: comment
-        source: payload
-      - envname: KEY
-        name: key
-        source: payload
-      - envname: VALUE
-        name: value
-        source: payload
-    response-headers:
-      - name: Content-Type
-        value: application/json
-    response-message: '{"status":"OK"}'
-    trigger-rule:
-      match:
-        type: value
-        value: "{{ ansible_runner_webhook_token }}"
-        parameter:
-          source: header
-          name: X-Token

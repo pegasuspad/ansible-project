@@ -1,11 +1,8 @@
 # ansible_runner role
 ansible_runner_user: ops
 
-# ansible_runner_webhook_token: required value for the 'X-Token' parameter on incoming webhooks
-ansible_runner_webhook_token: "{{ __vault__.ansible_runner_webhook_token }}"
-
 # certbot role
-certbot_webhook_token: "{{ __vault__.ansible_runner_webhook_token }}"
+certbot_webhook_token: "{{ __vault__.config_manager_webhook_token }}"
 certbot_webhook_host: lab-ansible
 
 # config-manager role
@@ -14,6 +11,7 @@ config_manager_password_file: /var/lib/ansible/vault-password
 config_manager_repository_name: lab-vault
 config_manager_repository_owner: pegasuspad
 config_manager_vault_id: lab
+config_manager_webhook_token: "{{ __vault__.config_manager_webhook_token }}"
 
 # webhook role
 webhook_tls_crt: |
