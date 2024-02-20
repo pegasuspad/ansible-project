@@ -23,6 +23,7 @@ const handler = async () => {
   const certificateInstallUrl = process.env.CERTIFICATE_INSTALL_URL
   const certificatePath = process.env.CERTIFICATE_PATH
   const configManagerToken = process.env.CONFIG_MANAGER_TOKEN
+  const proxyDeployUrl = process.env.PROXY_DEPLOY_URL
   const updatedCertificatesFile = process.env.UPDATED_CERTIFICATES_FILE
 
   if (!certificateInstallUrl) {
@@ -33,6 +34,9 @@ const handler = async () => {
   }
   if (!configManagerToken) {
     throw new Error('Missing required environment variable: CONFIG_MANAGER_TOKEN')
+  }
+  if (!proxyDeployUrl) {
+    throw new Error('Missing required environment variable: PROXY_DEPLOY_URL')
   }
   if (!updatedCertificatesFile) {
     throw new Error('Missing required environment variable: UPDATED_CERTIFICATES_FILE')
@@ -65,15 +69,27 @@ const handler = async () => {
       },
       method: 'PUT',
     })
-
     if (!result.ok) {
-      logger.error(`Certificate ebhook invocation failed: ${result.status} ${result.statusText}`)
-      throw new Error(`Certificate ebhook invocation failed: ${result.status} ${result.statusText}`)
+      logger.error(`Certificate webhook invocation failed: ${result.status} ${result.statusText}`)
+      throw new Error(`Certificate webhook invocation failed: ${result.status} ${result.statusText}`)
     }
+    logger.info('Successfully saved new certificates in vault.')
+
+    const provisionResult = await fetch(proxyDeployUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Token': configManagerToken
+      },
+      method: 'POST',
+    })
+    if (!provisionResult.ok) {
+      logger.error(`Proxy deployment webhook invocation failed: ${provisionResult.status} ${provisionResult.statusText}`)
+      throw new Error(`Proxy deployment webhook invocation failed: ${provisionResult.status} ${provisionResult.statusText}`)
+    }
+    logger.info('Successfully redeployed proxy server.')
 
     // @todo race condition if a cert updates at the same time
     fs.writeFileSync(updatedCertificatesFile, JSON.stringify([], null, 2), 'utf-8')
-    logger.info('Successfully stored new certificates.')
   }
 }
 

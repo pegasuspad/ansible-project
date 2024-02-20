@@ -6,7 +6,7 @@ dotenv.config({
   debug: false,
   encoding: 'utf-8',
   path: [
-    '/etc/opt/certbot/env',
+    '/etc/opt/certificate-manager/env',
     path.join(process.cwd(), '.env.local'),
     path.join(process.cwd(), '.env.default')
   ]

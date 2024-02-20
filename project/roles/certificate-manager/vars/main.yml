@@ -5,19 +5,25 @@ __certificate_manager_config_path: /etc/letsencrypt
 __certificate_manager_certificate_path: '{{ __certificate_manager_config_path }}/live'
 
 # __certificate_manager_deploy_hook: full path to the deploy hook which handles installing new certs
-__certificate_manager_deploy_hook: /opt/certbot/bin/on-certificate-updated.ts
+__certificate_manager_deploy_hook: "{{ __certificate_manager_scripts_package_path }}/bin/on-certificate-updated.ts"
+
+# __certificate_manager_install_url: url of the certificate install webhook
+__certificate_manager_deploy_proxy_url: "{{ __certificate_manager_webhook_base_url }}/provision?host={{ certificate_manager_proxy_host }}"
 
 # __certificate_manager_extra_args: extra args to pass to certbot when creating certificates
 __certificate_manager_extra_args: --deploy-hook '{{ __certificate_manager_deploy_hook }}'
 
 # __certificate_manager_install_url: url of the certificate install webhook
-__certificate_manager_install_url: "https://{{ certificate_manager_webhook_host }}:{{ certificate_manager_webhook_port }}/hooks/update-certificates"
+__certificate_manager_install_url: "{{ __certificate_manager_webhook_base_url }}/update-certificates"
 
 # __certificate_manager_scripts_config_path: directory to install config files for node.js scripts
-__certificate_manager_scripts_config_path: /etc/opt/certbot
+__certificate_manager_scripts_config_path: /etc/opt/certificate-manager
 
 # __certificate_manager_scripts_data_path: directory in which node.js data files will be saved
-__certificate_manager_scripts_data_path: /var/opt/certbot
+__certificate_manager_scripts_data_path: /var/opt/certificate-manager
 
 # __certificate_manager_scripts_package_path: directory in which to install node.js package
-__certificate_manager_scripts_package_path: /opt/certbot
+__certificate_manager_scripts_package_path: /opt/certificate-manager
+
+# base URL of the webhook server
+__certificate_manager_webhook_base_url: https://{{ certificate_manager_webhook_host }}:{{ certificate_manager_webhook_port }}/hooks

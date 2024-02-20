@@ -6,7 +6,7 @@ certificate_manager_admin_email: sean@pegasuspad.com
 certificate_manager_certs: []
 
 # file in which certbot scripts write logs
-certificate_manager_log_file: /var/log/certbot-hook.log
+certificate_manager_log_file: /var/log/certificate-manager-hook.log
 
 # pino log level for the certbot hook scripts
 certificate_manager_log_level: info
@@ -18,7 +18,7 @@ certificate_manager_proxy_host: null
 certificate_manager_testmode: false
 
 # certificate_manager_updated_domains_file: full path to the file containing the list of domains with updated (but not deployed) certs
-certificate_manager_updated_domains_file: /var/opt/certbot/updated-certificates.json
+certificate_manager_updated_domains_file: /var/opt/certificate-manager/updated-certificates.json
 
 # certificate_manager_webhook_host: hostname for the put-secret webhook, or null to skip updating the vault
 certificate_manager_webhook_host: null

@@ -19,4 +19,4 @@ reverse_proxy_virtual_host_configs:
     server_name: coder.lab.pegasuspad.com
     upstream_name: default_html_coder
 
-reverse_proxy_tls_certs: '{{ vault__reverse_proxy_tls_certs }}'
+reverse_proxy_tls_certs: '{{ __vault__.reverse_proxy_tls_certs }}'
