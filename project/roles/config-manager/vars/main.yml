@@ -39,3 +39,12 @@ config_manager_webhook_configs:
         parameter:
           source: header
           name: X-Token
+
+# __config_manager_scripts_config_path: directory to install config files for node.js scripts
+__config_manager_scripts_config_path: /etc/opt/config-manager
+
+# __config_manager_scripts_data_path: directory in which node.js data files will be saved
+__config_manager_scripts_data_path: /var/opt/config-manager
+
+# __config_manager_scripts_package_path: directory in which to install node.js package
+__config_manager_scripts_package_path: /opt/config-manager

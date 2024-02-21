@@ -1,0 +1,37 @@
+---
+- name: Setup node.js automation scripts
+  block:
+    - name: 'Create configuration directory: {{ __config_manager_scripts_config_path }}'
+      ansible.builtin.file:
+        mode: '0755'
+        owner: root
+        group: root
+        path: '{{ __config_manager_scripts_config_path }}'
+        state: directory
+    - name: Copy configuration templates
+      ansible.builtin.template:
+        dest: '{{ __config_manager_scripts_config_path }}/{{ item | ansible.builtin.basename | ansible.builtin.splitext | first }}'
+        group: 'root'
+        mode: '0644'
+        owner: 'root'
+        src: '{{ item }}'
+      with_fileglob:
+        - ../templates/etc/opt/config-manager/*.j2
+    - name: Copy scripts package
+      ansible.builtin.copy:
+        dest: '{{ __config_manager_scripts_package_path }}'
+        directory_mode: '0755'
+        group: 'root'
+        mode: 'preserve'
+        owner: 'root'
+        src: '__nodejs/'
+    - name: Install npm packages
+      community.general.npm:
+        path: '{{ __config_manager_scripts_package_path }}'
+    - name: 'Create node.js scripts data directory'
+      ansible.builtin.file:
+        mode: '0755'
+        owner: root
+        group: root
+        path: '{{ __config_manager_scripts_data_path }}'
+        state: directory

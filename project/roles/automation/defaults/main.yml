@@ -1,5 +1,2 @@
-# automation_packages: list of strings containing short names of packages to install. see the README for more detail
-automation_packages: []
-
 # automation_user: user for whom the npm packages will be installed, this defaults to ansible_user.
 automation_user: '{{ ansible_user }}'

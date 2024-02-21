@@ -4,8 +4,6 @@
   roles:
     - role: automation
       vars:
-        automation_packages:
-          - config-manager
         automation_user: '{{ ansible_runner_user }}'
     - role: webhook
       vars:
