@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { pino } from 'pino'
-import './config'
+import './config.js'
 
 // make sure the directory containing our log file exists
 // receives a "sonic boom" error from pino otherwise

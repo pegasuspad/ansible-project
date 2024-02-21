@@ -1,4 +1,4 @@
-#!/usr/bin/env -S npx --yes ts-node
+#!/usr/bin/env -S npx --yes ts-node --esm
 
 // Adds a domain to the list of those with updated certs. The list is a json file containing a single array.
 // The location of this file is intended to be set via an Ansible template variable (`certbot_updated_domains_file`).
@@ -13,12 +13,12 @@
 //  - RENEWED_LINEAGE: full path to the updated certs (e.g. /etc/letsencrypt/live/foo.pegasuspad.com)
 //
 
-import '../src/config'
+import '../src/config.js'
 
 import path from 'path'
 import fs from 'fs'
-import { logger } from '../src/logger'
-import { loadUpdatedCertificates } from '../src/load-updated-certificates'
+import { logger } from '../src/logger.js'
+import { loadUpdatedCertificates } from '../src/load-updated-certificates.js'
 
 const updatedCertificatesFile = process.env.UPDATED_CERTIFICATES_FILE
 const renewedLineage = process.env.RENEWED_LINEAGE

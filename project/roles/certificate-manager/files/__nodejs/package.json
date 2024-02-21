@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "utilities supporting hosts with the 'certbot' role",
   "license": "MIT",
+  "type": "module",
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",
     "ts-node": "^10.9.2",
@@ -10,6 +11,7 @@
   },
   "dependencies": {
     "dotenv": "^16.4.4",
+    "node-fetch": "^3.3.2",
     "pino": "^8.19.0"
   }
 }

@@ -1,4 +1,4 @@
-#!/usr/bin/env -S npx ts-node
+#!/usr/bin/env -S npx ts-node --esm
 
 // Deploys all certificates in the updated certificates file. Deployment is done by saving the new key
 // and certificate data in the Ansible controller's vault, and then triggering a reconfiguration of the
@@ -12,12 +12,13 @@
 //  - UPDATED_CERTIFICATES_FILE: path to a JSON file containing an array of certs to update
 //
 
-import '../src/config'
+import '../src/config.js'
 
 import path from 'path'
 import fs from 'fs'
-import { loadUpdatedCertificates } from '../src/load-updated-certificates'
-import { logger } from '../src/logger'
+import * as http from '../src/http.js'
+import { loadUpdatedCertificates } from '../src/load-updated-certificates.js'
+import { logger } from '../src/logger.js'
 
 const handler = async () => {
   const certificateInstallUrl = process.env.CERTIFICATE_INSTALL_URL
@@ -61,13 +62,12 @@ const handler = async () => {
       })
     }
 
-    const result = await fetch(certificateInstallUrl, {
+    const result = await http.put(certificateInstallUrl, {
       body: JSON.stringify(payload),
       headers: {
         'Content-Type': 'application/json',
         'X-Token': configManagerToken
       },
-      method: 'PUT',
     })
     if (!result.ok) {
       logger.error(`Certificate webhook invocation failed: ${result.status} ${result.statusText}`)
@@ -75,12 +75,11 @@ const handler = async () => {
     }
     logger.info('Successfully saved new certificates in vault.')
 
-    const provisionResult = await fetch(proxyDeployUrl, {
+    const provisionResult = await http.post(proxyDeployUrl, {
       headers: {
         'Content-Type': 'application/json',
         'X-Token': configManagerToken
       },
-      method: 'POST',
     })
     if (!provisionResult.ok) {
       logger.error(`Proxy deployment webhook invocation failed: ${provisionResult.status} ${provisionResult.statusText}`)
