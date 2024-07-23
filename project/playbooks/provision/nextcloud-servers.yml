@@ -3,6 +3,6 @@
   become: true
   gather_facts: true
   roles:
-    - role: users
-    - role: sudo
-    - role: sshd
+    - role: local.pegasuspad.users
+    - role: local.pegasuspad.sudo
+    - role: local.pegasuspad.sshd
