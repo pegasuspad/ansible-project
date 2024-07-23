@@ -16,14 +16,6 @@ reverse_proxy_virtual_host_configs:
     upstream_name: default_html
   - host: localhost
     port: 80
-    server_name: coder.lab.pegasuspad.com
-    upstream_name: default_html_coder
-  - host: localhost
-    port: 80
-    server_name: flame.lab.pegasuspad.com
-    upstream_name: default_html_flame
-  - host: localhost
-    port: 80
     server_name: nextcloud.lab.pegasuspad.com
     upstream_name: default_html_nextcloud
 
