@@ -1,0 +1,8 @@
+- name: Configure Nextcloud servers
+  hosts: nextcloud_servers
+  become: true
+  gather_facts: true
+  roles:
+    - role: users
+    - role: sudo
+    - role: sshd

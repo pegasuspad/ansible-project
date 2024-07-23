@@ -35,3 +35,6 @@
   gather_facts: true
   roles:
     - reverse-proxy
+
+- name: Include plays for nextcloud servers
+  ansible.builtin.import_playbook: playbooks/provision/nextcloud-servers.yml
