@@ -1,7 +1,8 @@
 # certbot role
 certificate_manager_certs:
-  - domains: ['files.lab.pegasuspad.com']
   - domains: ['default.lab.pegasuspad.com']
+  - domains: ['files.lab.pegasuspad.com']
+  - domains: ['nextcloud.lab.pegasuspad.com']
 certificate_manager_config_manager_token: "{{ __vault__.config_manager_webhook_token }}"
 certificate_manager_proxy_host: lab-proxy
 certificate_manager_testmode: true
