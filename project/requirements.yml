@@ -6,6 +6,8 @@ collections:
 - name: git+https://github.com/pegasuspad/ansible-roles.git,main
 
 roles:
+- name: geerlingguy.apache
+  version: 4.0.0
 - name: geerlingguy.certbot
   version: 5.1.0
 - name: geerlingguy.nodejs

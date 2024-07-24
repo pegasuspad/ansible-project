@@ -3,6 +3,32 @@
   become: true
   gather_facts: true
   roles:
-    - role: local.pegasuspad.users
     - role: local.pegasuspad.sudo
+    - role: local.pegasuspad.users
     - role: local.pegasuspad.sshd
+    - role: local.pegasuspad.apache
+      vars:
+        apache_modules:
+          - name: dir
+          - name: env
+          - name: headers
+          - name: mime
+          - name: proxy
+          - name: proxy_fcgi
+          - name: rewrite
+        apache_sites:
+          - name: nextcloud
+            template: nextcloud.conf.j2
+    - role: local.pegasuspad.php
+      vars:
+        php_ini:
+          apc.enable_cli: 1
+          apc.shm_size: 64M
+          memory_limit: 512M
+          opcache.enable_cli: 1
+          opcache.jit: 1255
+          opcache.jit_buffer_size: 128M
+          opcache.revalidate_freq: 60
+        php_packages: "{{ __nextcloud_php_packages }}"
+        php_version: 2:8.2*
+    # - role: local.pegasuspad.nextcloud

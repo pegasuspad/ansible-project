@@ -1,0 +1,21 @@
+---
+# apache options
+apache2_version: 2.4*
+
+# mariadb options
+mariadb_data_directory: /var/lib/db/mysql
+mariadb_version: 1:10.6*
+
+# php options
+php_version: 2:8.1*
+
+# users
+users_config:
+  - groups:
+      - adm
+      - sudo
+    uid: 60000
+    username: sean
+  # nextcloud user must match what is on the proxmox host, for bindmounts to work
+  - uid: 60002
+    username: nextcloud
