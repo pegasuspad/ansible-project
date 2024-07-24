@@ -31,4 +31,4 @@
           opcache.revalidate_freq: 60
         php_packages: "{{ __nextcloud_php_packages }}"
         php_version: 2:8.2*
-    # - role: local.pegasuspad.nextcloud
+    - role: local.pegasuspad.nextcloud
