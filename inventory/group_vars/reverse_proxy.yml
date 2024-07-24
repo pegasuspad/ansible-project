@@ -14,7 +14,22 @@ reverse_proxy_virtual_host_configs:
     port: 80
     server_name: default.lab.pegasuspad.com
     upstream_name: default_html
-  - host: lab-nextcloud
+  - extra_location_config:
+      - key: client_body_buffer_size
+        value: 512k
+      - key: client_max_body_size
+        value: 0
+      - key: proxy_http_version
+        value: 1.1
+      - key: proxy_set_header 
+        value: Upgrade $http_upgrade
+      - key: proxy_set_header
+        value: Connection $connection_upgrade
+      - key: rewrite
+        value: ^/\.well-known/carddav https://$server_name/remote.php/dav/ redirect
+      - key: rewrite
+        value: ^/\.well-known/caldav https://$server_name/remote.php/dav/ redirect
+    host: lab-nextcloud
     port: 80
     server_name: nextcloud.lab.pegasuspad.com
     upstream_name: default_html_nextcloud
