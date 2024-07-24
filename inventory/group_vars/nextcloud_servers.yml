@@ -4,7 +4,12 @@ mariadb_data_directory: /var/lib/db/mysql
 mariadb_version: 1:10.6*
 
 # nextcloud options
+nextcloud_host_name: nextcloud.lab.pegasuspad.com
 nextcloud_proxy_host: 10.111.1.212
+nextcloud_version: 27.1.11
+
+# php options
+php_version: 8.2
 
 # users
 users_config:
