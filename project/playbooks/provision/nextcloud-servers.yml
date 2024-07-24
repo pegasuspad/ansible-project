@@ -29,5 +29,6 @@
           opcache.jit: 1255
           opcache.jit_buffer_size: 128M
           opcache.revalidate_freq: 60
-        php_packages: "{{ __nextcloud_php_packages }}"
     - role: local.pegasuspad.nextcloud
+      vars:
+        nextcloud_use_fpm: true
