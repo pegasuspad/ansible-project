@@ -9,7 +9,7 @@ nextcloud_proxy_host: 10.111.1.212
 nextcloud_version: 27.1.11
 
 # php options
-php_version: 8.2
+php_version: 8.1
 
 # users
 users_config:
