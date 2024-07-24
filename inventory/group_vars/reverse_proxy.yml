@@ -14,7 +14,7 @@ reverse_proxy_virtual_host_configs:
     port: 80
     server_name: default.lab.pegasuspad.com
     upstream_name: default_html
-  - host: localhost
+  - host: lab-nextcloud
     port: 80
     server_name: nextcloud.lab.pegasuspad.com
     upstream_name: default_html_nextcloud
