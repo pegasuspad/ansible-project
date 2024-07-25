@@ -1,8 +1,10 @@
 collections:
-- name: community.general
-  version: 9.2.0
 - name: ansible.posix
   version: 1.5.4
+- name: community.general
+  version: 9.2.0
+- name: devsec.hardening
+  version: 9.0.1
 - name: git+https://github.com/pegasuspad/ansible-roles.git,main
 
 roles:
