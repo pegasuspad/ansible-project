@@ -136,6 +136,7 @@ const handler = async () => {
     return [
       {
         key: ['__vault__', ...keyAsArray],
+        tag: '!vault',
         value: encryptedValue
       }
     ]
