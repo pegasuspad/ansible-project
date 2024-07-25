@@ -49,7 +49,7 @@
           aws:
             aws_access_key: '{{ nextcloud_backup.b2_access_key_id }}'
             aws_secret_access_key: '{{ nextcloud_backup.b2_access_key_secret }}'
-            location: https://s3.us-east-005.backblazeb2.com/backup-nextcloud-pegasuspad
+            location: s3:s3.us-east-005.backblazeb2.com/backup-nextcloud-pegasuspad
             password: '{{ nextcloud_backup.repository_password }}'
             init: false
         restic_script_dir: /opt/backup
