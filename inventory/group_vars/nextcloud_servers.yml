@@ -4,6 +4,19 @@ mariadb_data_directory: /var/lib/db/mysql
 mariadb_version: 1:10.6*
 
 # nextcloud options
+# get relevant vault secrets as inventory vars
+nextcloud_backup: 
+  b2_access_key_id: '{{ __vault__.nextcloud.b2_access_key_id }}'
+  b2_access_key_secret: '{{ __vault__.nextcloud.b2_access_key_secret }}'
+  repository_password: '{{ __vault__.nextcloud.backup_repository_password }}'
+nextcloud_db:
+  host: localhost
+  name: nextcloud
+  password: '{{ __vault__.nextcloud.db_password }}'
+  port: 5432
+  root_password: '{{ __vault__.nextcloud.db_root_password }}'
+  type: mysql
+  username: '{{ __vault__.nextcloud.db_username }}'
 nextcloud_host_name: nextcloud.lab.pegasuspad.com
 nextcloud_proxy_host: 10.111.1.212
 nextcloud_version: 27.1.11
@@ -16,9 +29,3 @@ users_extra:
   # nextcloud user must match what is on the proxmox host, for bindmounts to work
   - uid: 60002
     username: nextcloud
-
-# get relevant vault secrets as inventory vars
-nextcloud_backup: 
-  b2_access_key_id: '{{ __vault__.nextcloud.b2_access_key_id }}'
-  b2_access_key_secret: '{{ __vault__.nextcloud.b2_access_key_secret }}'
-  repository_password: '{{ __vault__.nextcloud.backup_repository_password }}'

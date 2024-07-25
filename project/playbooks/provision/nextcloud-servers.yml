@@ -29,6 +29,17 @@
           opcache.jit: 1255
           opcache.jit_buffer_size: 128M
           opcache.revalidate_freq: 60
+    - role: mariadb
+      vars:
+        mariadb_databases:
+          - collation: "{{ __nextcloud_db_collation }}"
+            encoding: "{{ __nextcloud_db_encoding }}"
+            name: "{{ nextcloud_db.name }}"
+        mariadb_root_password: "{{ nextcloud_db.root_password }}"
+        mariadb_users:
+          - name: "{{ nextcloud_db.username }}"
+            password: "{{ nextcloud_db.password }}"
+            privileges: "{{ nextcloud_db.name }}.*:ALL"
     - role: local.pegasuspad.nextcloud
       vars:
         nextcloud_use_fpm: true
