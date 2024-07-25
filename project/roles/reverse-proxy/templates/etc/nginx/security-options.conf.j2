@@ -55,7 +55,9 @@ ssl_stapling_verify on;
 # Security headers
 
 # X-Content-Type-Options: avoid MIME type sniffing
+proxy_hide_header X-Content-Type-Options;
 add_header X-Content-Type-Options nosniff;
 
 # Strict Transport Security (HSTS): Yes
+proxy_hide_header Strict-Transport-Security;
 add_header Strict-Transport-Security "max-age=31536000; includeSubdomains; preload";
