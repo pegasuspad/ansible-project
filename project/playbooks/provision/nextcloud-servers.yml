@@ -44,6 +44,7 @@
           restic_dir_group: '{{ nextcloud_backup_group }}'
         restic_dir_owner: '{{ nextcloud_backup_group }}'
         restic_download_path: /opt/backup
+        restic_no_log: false
         restic_repos:
           b2:
             aws_access_key: '{{ nextcloud.b2_access_key_id }}'
