@@ -35,7 +35,7 @@
           - collation: "{{ __nextcloud_db_collation }}"
             encoding: "{{ __nextcloud_db_encoding }}"
             name: "{{ nextcloud_db.name }}"
-        mariadb_root_password: "{{ nextcloud_db.root_password }}"
+        mariadb_root_password: "{{ nextcloud_db_root_password}}"
         mariadb_users:
           - name: "{{ nextcloud_db.username }}"
             password: "{{ nextcloud_db.password }}"

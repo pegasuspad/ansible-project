@@ -14,11 +14,11 @@ nextcloud_db:
   name: nextcloud
   password: '{{ __vault__.nextcloud.db_password }}'
   port: 5432
-  root_password: '{{ __vault__.nextcloud.db_root_password }}'
   type: mysql
   username: '{{ __vault__.nextcloud.db_username }}'
 nextcloud_host_name: nextcloud.lab.pegasuspad.com
 nextcloud_proxy_host: 10.111.1.212
+nextcloud_db_root_password: '{{ __vault__.nextcloud.db_root_password }}'
 nextcloud_version: 27.1.11
 
 # php options
