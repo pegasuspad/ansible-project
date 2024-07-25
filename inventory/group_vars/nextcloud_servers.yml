@@ -16,3 +16,9 @@ users_extra:
   # nextcloud user must match what is on the proxmox host, for bindmounts to work
   - uid: 60002
     username: nextcloud
+
+# get relevant vault secrets as inventory vars
+nextcloud_backup: 
+  b2_access_key_id: '{{ __vault__.nextcloud.b2_access_key_id }}'
+  b2_access_key_secret: '{{ __vault__.nextcloud.b2_access_key_secret }}'
+  repository_password: '{{ __vault__.nextcloud.backup_repository_password }}'
