@@ -9,12 +9,3 @@ sshd_users:
 
 # sudo options
 sudo_allow_passwordless: true
-
-# users configuration
-users_config:
-  - groups:
-      - adm
-      - docker
-      - sudo
-    uid: 60000
-    username: sean

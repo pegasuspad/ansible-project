@@ -12,12 +12,7 @@ nextcloud_version: 27.1.11
 php_version: 8.2
 
 # users
-users_config:
-  - groups:
-      - adm
-      - sudo
-    uid: 60000
-    username: sean
+users_extra:
   # nextcloud user must match what is on the proxmox host, for bindmounts to work
   - uid: 60002
     username: nextcloud
