@@ -34,7 +34,14 @@
         nextcloud_use_fpm: true
     - role: roles-ansible.restic
       vars:
-        restic_dir_group: '{{ nextcloud_backup_group }}'
+        restic_backups:
+          all:
+            name: all
+            niceness: 10
+            repo: b2
+            scheduled: false
+            src: /var/lib/nextcloud
+          restic_dir_group: '{{ nextcloud_backup_group }}'
         restic_dir_owner: '{{ nextcloud_backup_group }}'
         restic_download_path: /opt/backup
         restic_repos:
