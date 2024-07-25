@@ -19,10 +19,6 @@ reverse_proxy_virtual_host_configs:
         value: 512k
       - key: client_max_body_size
         value: 0
-      # - key: proxy_set_header 
-      #   value: Upgrade $http_upgrade
-      # - key: proxy_set_header
-      #   value: Connection $connection_upgrade
       - key: rewrite
         value: ^/\.well-known/carddav https://$server_name/remote.php/dav/ redirect
       - key: rewrite
