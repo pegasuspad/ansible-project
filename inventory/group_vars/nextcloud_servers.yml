@@ -1,6 +1,6 @@
 ---
 # mariadb options
-mariadb_data_directory: /var/lib/db/mysql
+# mariadb_data_directory: /var/lib/db/mysql
 mariadb_version: 1:10.6*
 
 # nextcloud options
