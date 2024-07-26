@@ -27,3 +27,7 @@
       include_role:
         name: local.pegasuspad.nextcloud
         tasks_from: actions/backup/restore-files.yml
+    - name: (RESTORE) Update restored configuration
+      include_role:
+        name: local.pegasuspad.nextcloud
+        tasks_from: actions/configure.yml
