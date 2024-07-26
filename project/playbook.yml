@@ -37,4 +37,4 @@
     - reverse-proxy
 
 - name: Include plays for nextcloud servers
-  ansible.builtin.import_playbook: playbooks/provision/nextcloud-servers.yml
+  ansible.builtin.import_playbook: playbooks/nextcloud/provision-nextcloud-servers.yml
