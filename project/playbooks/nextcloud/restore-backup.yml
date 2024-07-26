@@ -15,5 +15,5 @@
           - nextcloud_snapshot_id | length > 0
         msg: "The 'nextcloud_snapshot_id' variable must be set and non-empty."
   roles:
-    - role: nextcloud
+    - role: local.pegasuspad.nextcloud
       tasks_from: actions/backup/download-snapshot.yml
