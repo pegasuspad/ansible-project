@@ -1,5 +1,5 @@
 ---
-- name: (RESTORE) Download snapshot - {{ nextcloud_snapshot_id }}
+- name: (RESTORE) Restore backup - {{ nextcloud_snapshot_id }}
   hosts: nextcloud_servers
   become: yes
   pre_tasks:
@@ -14,6 +14,8 @@
           - nextcloud_snapshot_id is defined
           - nextcloud_snapshot_id | length > 0
         msg: "The 'nextcloud_snapshot_id' variable must be set and non-empty."
-  roles:
-    - role: local.pegasuspad.nextcloud
-      tasks_from: actions/backup/download-snapshot.yml
+  tasks:
+    - name: (RESTORE) Download snapshot - {{ nextcloud_snapshot_id }}
+      include_role:
+        name: common
+        tasks_from: actions/backup/download-snapshot.yml
