@@ -1,5 +1,5 @@
 ---
-- name: (RESTORE) Download snapshot: {{ nextcloud_snapshot_id }}
+- name: (RESTORE) Download snapshot - {{ nextcloud_snapshot_id }}
   hosts: nextcloud_servers
   become: yes
   pre_tasks:
