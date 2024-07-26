@@ -23,3 +23,7 @@
       include_role:
         name: local.pegasuspad.nextcloud
         tasks_from: actions/backup/restore-db.yml
+    - name: (RESTORE) Restore files - {{ nextcloud_snapshot_id }}
+      include_role:
+        name: local.pegasuspad.nextcloud
+        tasks_from: actions/backup/restore-files.yml
