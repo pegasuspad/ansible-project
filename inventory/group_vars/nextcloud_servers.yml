@@ -4,11 +4,13 @@
 mariadb_version: 1:10.6*
 
 # nextcloud options
+nextcloud_backup_enabled: true
 # get relevant vault secrets as inventory vars
-nextcloud_backup: 
+nextcloud_backup_repository: 
   b2_access_key_id: '{{ __vault__.nextcloud.b2_access_key_id }}'
   b2_access_key_secret: '{{ __vault__.nextcloud.b2_access_key_secret }}'
-  repository_password: '{{ __vault__.nextcloud.backup_repository_password }}'
+  password: '{{ __vault__.nextcloud.backup_repository_password }}'
+  url: s3:s3.us-east-005.backblazeb2.com/backup-nextcloud-pegasuspad
 nextcloud_db:
   host: localhost
   name: nextcloud

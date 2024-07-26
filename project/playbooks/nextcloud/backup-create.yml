@@ -1,0 +1,15 @@
+---
+- name: (BACKUP) Create new snapshot
+  hosts: nextcloud_servers
+  become: yes
+  pre_tasks:
+    - name: (BACKUP) Ensure only one host is specified
+      assert:
+        that:
+          - inventory_hostname == play_hosts[0]
+        msg: "This playbook requires a single server to be specified. Please provide only one host using --limit option."
+  tasks:
+    - name: (BACKUP) Create snapshot using nextcloud role
+      include_role:
+        name: local.pegasuspad.nextcloud
+        tasks_from: actions/backup/backup.yml

@@ -43,25 +43,3 @@
     - role: local.pegasuspad.nextcloud
       vars:
         nextcloud_use_fpm: false
-    - role: roles-ansible.restic
-      vars:
-        restic_backups:
-          all:
-            name: all
-            niceness: 10
-            repo: aws
-            scheduled: false
-            src: /var/lib/nextcloud
-          restic_dir_group: '{{ nextcloud_backup_group }}'
-        restic_dir_owner: '{{ nextcloud_backup_group }}'
-        restic_download_path: /opt/backup
-        restic_no_log: false
-        restic_repos:
-          aws:
-            aws_access_key: '{{ nextcloud_backup.b2_access_key_id }}'
-            aws_secret_access_key: '{{ nextcloud_backup.b2_access_key_secret }}'
-            location: s3:s3.us-east-005.backblazeb2.com/backup-nextcloud-pegasuspad
-            password: '{{ nextcloud_backup.repository_password }}'
-            init: false
-        restic_script_dir: /opt/backup
-        restic_version: 0.16.5
