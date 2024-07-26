@@ -30,4 +30,4 @@
     - name: (RESTORE) Update restored configuration
       include_role:
         name: local.pegasuspad.nextcloud
-        tasks_from: actions/configure.yml
+        tasks_from: configure.yml
