@@ -1,0 +1,15 @@
+---
+- name: (CONFIGURE) Set maintenance mode - {{ nextcloud_maintenance_mode }}
+  hosts: nextcloud_servers
+  become: yes
+  pre_tasks:
+    - name: (CONFIGURE) Ensure a mode was specified
+      assert:
+        that:
+          - nextcloud_maintenance_mode is defined
+        msg: "The 'nextcloud_maintenance_mode' variable must be set"
+  tasks:
+    - name: (CONFIGURE) Update maintenance mode configuration
+      include_role:
+        name: local.pegasuspad.nextcloud
+        tasks_from: actions/set-maintenance-mode.yml
