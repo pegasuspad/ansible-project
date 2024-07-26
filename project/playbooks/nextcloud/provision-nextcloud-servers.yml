@@ -42,7 +42,7 @@
             privileges: "{{ nextcloud_db.name }}.*:ALL"
     - role: local.pegasuspad.nextcloud
       vars:
-        nextcloud_use_fpm: true
+        nextcloud_use_fpm: false
     - role: roles-ansible.restic
       vars:
         restic_backups:
