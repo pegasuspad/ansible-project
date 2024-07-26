@@ -17,5 +17,5 @@
   tasks:
     - name: (RESTORE) Download snapshot - {{ nextcloud_snapshot_id }}
       include_role:
-        name: common
+        name: local.pegasuspad.nextcloud
         tasks_from: actions/backup/download-snapshot.yml
