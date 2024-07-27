@@ -10,7 +10,7 @@ nextcloud_backup_repository:
   b2_access_key_id: '{{ __vault__.nextcloud.b2_access_key_id }}'
   b2_access_key_secret: '{{ __vault__.nextcloud.b2_access_key_secret }}'
   password: '{{ __vault__.nextcloud.backup_repository_password }}'
-  url: s3:s3.us-east-005.backblazeb2.com/backup-nextcloud-pegasuspad
+  url: s3:s3.us-east-005.backblazeb2.com/backup-pegasuspad-lab/nextcloud
 nextcloud_db:
   host: localhost
   name: nextcloud
