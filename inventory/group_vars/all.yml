@@ -1,8 +1,5 @@
 aptcachetime: 3600
 
-# restic options
-restic_version: 0.16.5
-
 # sshd options
 sshd_enabled: true
 # note: sshd is disabled by default, so these options are only applied if sshd_enabled is overridden elsewhere
