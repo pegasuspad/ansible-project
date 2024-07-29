@@ -1,10 +1,14 @@
 ---
+# backup options
+backup_no_log: false
+
 # mariadb options
 # mariadb_data_directory: /var/lib/db/mysql
 mariadb_version: 1:10.6*
 
 # nextcloud options
 nextcloud_backup_enabled: true
+nextcloud_backup_path: /var/lib/backup
 # get relevant vault secrets as inventory vars
 nextcloud_backup_repository: 
   b2_access_key_id: '{{ __vault__.nextcloud.b2_access_key_id }}'
