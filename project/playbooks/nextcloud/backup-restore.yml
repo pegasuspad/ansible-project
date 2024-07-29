@@ -1,5 +1,5 @@
 ---
-- name: (RESTORE) Restore snapshot - {{ nextcloud_snapshot_id }}
+- name: (RESTORE) Restore snapshot - {{ backup_snapshot_id }}
   hosts: nextcloud_servers
   become: yes
   pre_tasks:
