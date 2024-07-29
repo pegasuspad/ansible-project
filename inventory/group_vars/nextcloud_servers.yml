@@ -3,12 +3,18 @@
 backup_no_log: false
 backup_repositories:
   - name: '{{ nextcloud_backup_repository_name }}'
-    aws_access_key: '{{ __vault__.nextcloud.b2_access_key_id }}'
-    aws_secret_access_key: '{{ __vault__.nextcloud.b2_access_key_secret }}'
+    aws_access_key: '{{ __vault__.nextcloud.backup_default.b2_access_key_id }}'
+    aws_secret_access_key: '{{ __vault__.nextcloud.backup_default.b2_access_key_secret }}'
     location: s3:s3.us-east-005.backblazeb2.com/backup-pegasuspad-lab/nextcloud
-    password: '{{  __vault__.nextcloud.backup_repository_password }}'
+    password: '{{  __vault__.nextcloud.backup_default.backup_repository_password }}'
     schedule: '*-*-* *:00:00'
-    
+  - name: prod_ro
+    aws_access_key: '{{ __vault__.nextcloud.backup_prod_ro.b2_access_key_id }}'
+    aws_secret_access_key: '{{ __vault__.nextcloud.backup_prod_ro.b2_access_key_secret }}'
+    location: s3:s3.us-east-005.backblazeb2.com/backup-nextcloud-pegasuspad
+    password: '{{  __vault__.nextcloud.backup_prod_ro.backup_repository_password }}'
+    schedule: '*-*-* *:00:00'
+
 # mariadb options
 # mariadb_data_directory: /var/lib/db/mysql
 mariadb_version: 1:10.6*
