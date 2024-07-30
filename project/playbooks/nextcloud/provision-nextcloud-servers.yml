@@ -3,10 +3,10 @@
   become: true
   gather_facts: true
   roles:
-    - role: local.pegasuspad.sudo
-    - role: local.pegasuspad.users
-    - role: local.pegasuspad.sshd
-    - role: local.pegasuspad.apache
+    - role: skleinjung.core.sudo
+    - role: skleinjung.core.users
+    - role: skleinjung.core.sshd
+    - role: skleinjung.core.apache
       vars:
         apache_modules:
           - name: dir
@@ -19,7 +19,7 @@
         apache_sites:
           - name: nextcloud
             template: nextcloud.conf.j2
-    - role: local.pegasuspad.php
+    - role: skleinjung.core.php
       vars:
         php_ini:
           apc.enable_cli: 1
@@ -29,7 +29,7 @@
           opcache.jit: 1255
           opcache.jit_buffer_size: 128M
           opcache.revalidate_freq: 60
-    - role: local.pegasuspad.mariadb
+    - role: skleinjung.core.mariadb
       vars:
         mariadb_databases:
           - collation: "{{ __nextcloud_db_collation }}"
@@ -40,6 +40,6 @@
           - name: "{{ nextcloud_db.username }}"
             password: "{{ nextcloud_db.password }}"
             privileges: "{{ nextcloud_db.name }}.*:ALL"
-    - role: local.pegasuspad.nextcloud
+    - role: skleinjung.apps.nextcloud
       vars:
         nextcloud_use_fpm: false

@@ -11,5 +11,5 @@
   tasks:
     - name: (RESTORE) Restore snapshot using nextcloud role
       include_role:
-        name: local.pegasuspad.nextcloud
+        name: skleinjung.apps.nextcloud
         tasks_from: actions/backup/restore.yml

@@ -11,5 +11,5 @@
   tasks:
     - name: (CONFIGURE) Update maintenance mode configuration
       include_role:
-        name: local.pegasuspad.nextcloud
+        name: skleinjung.apps.nextcloud
         tasks_from: actions/set-maintenance-mode.yml

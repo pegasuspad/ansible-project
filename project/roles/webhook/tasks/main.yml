@@ -8,7 +8,7 @@
       mode: "0644"
       url: "{{ __webhook_download_url }}"
     ansible.builtin.include_role:
-      name: local.pegasuspad.fetch
+      name: skleinjung.core.fetch
       tasks_from: download.yml
   - name: Unarchive webhook
     ansible.builtin.unarchive:
