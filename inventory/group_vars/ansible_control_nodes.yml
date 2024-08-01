@@ -1,5 +1,5 @@
 # ansible_runner role
-ansible_runner_user: ops
+ansible_runner_user: sean
 
 # config-manager role
 config_manager_github_token: "{{ __vault__.config_manager_github_token }}"
