@@ -45,4 +45,4 @@ webhook_tls_crt: |
   hAv/j+vzAbNeiHDlOjZVHcePtVJbxPyL6Hp/juKuui+OzEiFqOI1OyWmdJORxSGX
   tJ+MNEXYEagTNmotLTUe2k+Z6BMVeAhJhTiMNWYfJxlqAEezBQ==
   -----END CERTIFICATE-----
-webhook_tls_key: "{{ __vault__.webhook_tls_key | d(null) }}"
+webhook_tls_key: "{{ __vault__.webhook_tls_key | d('') }}"
