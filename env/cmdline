@@ -1,1 +1,1 @@
---vault-id lab@/var/lib/ansible/vault-password --extra-vars @../../vault/vault.yml
+--vault-id "${VAULT_NAME}@${VAULT_PASSWORD_PATH}" --extra-vars "@${VAULT_PATH}/${VAULT_NAME}.yml"

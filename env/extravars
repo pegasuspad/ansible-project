@@ -2,4 +2,3 @@
 # Some useful variables: https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html#connecting-to-hosts-behavioral-inventory-parameters
 
 ansible_ssh_extra_args: -o StrictHostKeyChecking=accept-new
-ansible_user: ansible
