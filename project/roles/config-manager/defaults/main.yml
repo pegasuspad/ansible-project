@@ -10,10 +10,12 @@ config_manager_repository_path: vault.yml
 # vault ID to use for encrypting/decrypting vault data
 config_manager_vault_id: default
 
+# token used to authenticate incoming webhooks, should be set in production!
+config_manager_webhook_token: ''
+
 # required variables to define
 
 # config_manager_github_token: API token used to access the vault repository
 # config_manager_password_file: absolute path to the vault password file
 # config_manager_repository_name: name of the Vault repository in Github
 # config_manager_repository_owner: owner of the Vault repository in Github
-# config_manager_webhook_token: token which is used to authenticate webhook requests
