@@ -2,11 +2,11 @@
 ansible_runner_user: sean
 
 # config-manager role
-config_manager_github_token: "{{ __vault__.config_manager_github_token }}"
+config_manager_github_token: "{{ __vault__.config_manager.github_token }}"
 config_manager_password_file: /var/lib/ansible/vault-password
 config_manager_repository_name: ansible-vault
 config_manager_repository_owner: pegasuspad
-config_manager_webhook_token: "{{ __vault__.config_manager_webhook_token | d('CHANGEME')}}"
+config_manager_webhook_token: "{{ __vault__.config_manager.webhook_token | d('INSECURE_CHANGE_ME')}}"
 
 # webhook role
 webhook_tls_crt: |
