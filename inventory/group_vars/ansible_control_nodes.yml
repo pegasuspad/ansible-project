@@ -7,7 +7,7 @@ config_manager_password_file: /var/lib/ansible/vault-password
 config_manager_repository_name: lab-vault
 config_manager_repository_owner: pegasuspad
 config_manager_vault_id: lab
-config_manager_webhook_token: "{{ __vault__.config_manager_webhook_token }}"
+config_manager_webhook_token: "{{ __vault__.config_manager_webhook_token | d('CHANGEME')}}"
 
 # webhook role
 webhook_tls_crt: |
@@ -45,4 +45,4 @@ webhook_tls_crt: |
   hAv/j+vzAbNeiHDlOjZVHcePtVJbxPyL6Hp/juKuui+OzEiFqOI1OyWmdJORxSGX
   tJ+MNEXYEagTNmotLTUe2k+Z6BMVeAhJhTiMNWYfJxlqAEezBQ==
   -----END CERTIFICATE-----
-webhook_tls_key: "{{ __vault__.webhook_tls_key }}"
+webhook_tls_key: "{{ __vault__.webhook_tls_key | d(null) }}"
