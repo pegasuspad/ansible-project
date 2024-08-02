@@ -12,6 +12,8 @@ roles:
   version: 4.0.0
 - name: geerlingguy.certbot
   version: 5.1.0
+- name: geerlingguy.docker
+  version: 7.3.0
 - name: geerlingguy.nodejs
   version: 6.1.1
 - name: geerlingguy.pip
