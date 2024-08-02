@@ -1,0 +1,18 @@
+stage_lab:
+  children:
+    ansible_control_nodes:
+      hosts:
+        lab-ansible:
+        lab-ansible-blue:
+        lab-ansible-green:
+      vars:
+        ansible_connection: local
+    certbot:
+      hosts:
+        lab-certbot:
+    nextcloud_servers:
+      hosts:
+        lab-nextcloud:
+    reverse_proxy:
+      hosts:
+        lab-proxy:
