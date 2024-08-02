@@ -4,9 +4,8 @@ ansible_runner_user: sean
 # config-manager role
 config_manager_github_token: "{{ __vault__.config_manager_github_token }}"
 config_manager_password_file: /var/lib/ansible/vault-password
-config_manager_repository_name: lab-vault
+config_manager_repository_name: ansible-vault
 config_manager_repository_owner: pegasuspad
-config_manager_vault_id: lab
 config_manager_webhook_token: "{{ __vault__.config_manager_webhook_token | d('CHANGEME')}}"
 
 # webhook role

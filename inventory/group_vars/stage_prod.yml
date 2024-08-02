@@ -1,0 +1,3 @@
+# config-manager role
+config_manager_repository_path: prod.yml
+config_manager_vault_id: prod
