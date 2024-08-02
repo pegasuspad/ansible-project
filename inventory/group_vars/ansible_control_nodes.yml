@@ -9,39 +9,5 @@ config_manager_repository_owner: pegasuspad
 config_manager_webhook_token: "{{ __vault__.config_manager.webhook_token | d('INSECURE_CHANGE_ME')}}"
 
 # webhook role
-webhook_tls_crt: |
-  -----BEGIN CERTIFICATE-----
-  MIIF8TCCA9mgAwIBAgIUfkabmIDfZH70SV2YwfnTCqrkDhYwDQYJKoZIhvcNAQEL
-  BQAwgYcxCzAJBgNVBAYTAlVTMRIwEAYDVQQIDAlNaW5uZXNvdGExFDASBgNVBAcM
-  C01pbm5lYXBvbGlzMRQwEgYDVQQKDAtUaGUgUGVnYXN1czEUMBIGA1UEAwwLbGFi
-  LWFuc2libGUxIjAgBgkqhkiG9w0BCQEWE3NlYW5AcGVnYXN1c3BhZC5jb20wHhcN
-  MjQwMjAxMDc1NDQxWhcNMjUwMTMxMDc1NDQxWjCBhzELMAkGA1UEBhMCVVMxEjAQ
-  BgNVBAgMCU1pbm5lc290YTEUMBIGA1UEBwwLTWlubmVhcG9saXMxFDASBgNVBAoM
-  C1RoZSBQZWdhc3VzMRQwEgYDVQQDDAtsYWItYW5zaWJsZTEiMCAGCSqGSIb3DQEJ
-  ARYTc2VhbkBwZWdhc3VzcGFkLmNvbTCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCC
-  AgoCggIBALbdUkG/4Ghzns6SSt6jgNX7I4IrckphnAVSPeSUwnwukCCZyZ5M+zAN
-  3kC+4WXZ6i7Z85lyr4VuxrNc+s50wnWEgiPbWl+J11XMsqfOWPN5zKBGOmkndwmx
-  wsg2q1huwCcFeXOGiTctLCHoCFB2CnAF//REdIlIN8l37k0pQgBOm7pMe4ohOwnD
-  rpAAmDVOWFL+4d83kQ3cDuyDez593ypJHgcV6iYfq82g23a7yHaiNCevjUQBEXpc
-  4+h5btFmc6fDHme+HjsgnY8lzXw+4vQ4R3MvDzKrvFNJyMCScv1LuI0maTa43JK4
-  rwnxjjLQ4yq6TqzK+UPAST0tvR5l6Fci6VonPrnoLgsyiy43SlTT1CTm1AE+MRep
-  CnB+RFdZw1ULFXGdN/QZvE9iINT+Ft38KpUYdJvX1OYSbnoWsJUgQokkFTuFBr69
-  9q/hFgy63KVOlg9gdTSgo4Fzzg5bSxaKNZ2RY7Jf1x/bikwmrY5F0W8OZsR3uuXk
-  Obp7FG/sa2f45gKBPdPRoo69gu/bEGcnfSrbSVTxKOARKih+YycwAsmGnwOZar4i
-  8ejeIFwVpz2LxbrJwklnjgOT2lFZtrxB/W2CN3X0PEgb41+SMFi6UgCedM/VWz91
-  EtGwTOnbUpyWhH/QSSNjZefkGHwMCEAtq1ly18rb9AFCX+PQf6wNAgMBAAGjUzBR
-  MB0GA1UdDgQWBBSbOpN2kWb6MGroGdzenR05TizyPzAfBgNVHSMEGDAWgBSbOpN2
-  kWb6MGroGdzenR05TizyPzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUA
-  A4ICAQCxqa48pqtfYbdzORf0tp1GrnCxhQa9W5imfzrTlIFKES/SRIJkzuTzkA7K
-  rnfYtJUE1CiQA0MVYPlKQ6dpywhYZRYenkhE24muS8uMKnLiY98kCqjXHYCvpIKr
-  Jt9/rZc7LmLMGPfnmnM7RqWgzTnZwYB7D++SXBotK7uWIkNaeJXhEXmi12PDHd99
-  YN3yvgJMvKouJaI08m2K33EMhwEhhd1YcGN+W69XNITolHJFVYGH4g4KpQgAp5dJ
-  Jwou2MnFnGWOloWyCJymzlVBWPIYiZPg1GycVPV/M6mqtaTwYfGJ2GBrherbkUlU
-  j4naBBayHTXrWg2GN4v5YRWz6rElE2p12xrhebPhkkrs0svOHK8ocAEYBxQnn3TT
-  zH3MvN689OxDp1m+Wub+jPSetawxKzSatbx/iDAYd8THGZ3YSu+DkI97HPPtD8+B
-  1qpLFGs4HF7Cs7QtUb+lK6kMX0PBaDc7Ii6KWUJyl8Hb4NnFyltM5jraoQswuz0d
-  CGwBy8Ms8c93tTuTglz2coJUqGRvvx4+LOXpJGRzoQHV54EJSt4UOL3e6rtePL34
-  hAv/j+vzAbNeiHDlOjZVHcePtVJbxPyL6Hp/juKuui+OzEiFqOI1OyWmdJORxSGX
-  tJ+MNEXYEagTNmotLTUe2k+Z6BMVeAhJhTiMNWYfJxlqAEezBQ==
-  -----END CERTIFICATE-----
-webhook_tls_key: "{{ __vault__.webhook_tls_key | d('') }}"
+webhook_tls_crt: "{{__vault__.config_manager.tls_crt | d('') }}"
+webhook_tls_key: "{{__vault__.config_manager.tls_key | d('') }}"
