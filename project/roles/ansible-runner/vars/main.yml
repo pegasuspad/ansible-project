@@ -14,4 +14,4 @@ ansible_runner_hook_configs:
           name: host
           source: url
         type: regex
-        regex: "^lab-[-a-zA-Z0-9_.]+$"
+        regex: "^[-a-zA-Z0-9_.]+$"
