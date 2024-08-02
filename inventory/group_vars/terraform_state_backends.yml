@@ -1,0 +1,8 @@
+# postgres options
+postgres_db_name: terraform_state
+postgres_db_password: "{{ __vault__.terraform_state_backends.postgres_db_password }}"
+postgres_image_version: 16-alpine
+postgres_ssl:
+  crt: "{{ __vault__.terraform_state_backends.postgres_ssl.crt }}"
+  enabled: true
+  key: "{{ __vault__.terraform_state_backends.postgres_ssl.key }}"

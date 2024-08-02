@@ -6,3 +6,6 @@ stage_prod:
         prod-ansible-green:
       vars:
         ansible_connection: local
+    terraform_state_backends:
+      hosts:
+        prod-terraform-state:

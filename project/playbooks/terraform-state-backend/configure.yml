@@ -1,0 +1,10 @@
+---
+- name: Configure terraform_state_backends server
+  gather_facts: true
+  hosts: terraform_state_backends
+  roles:
+    - role: skleinjung.core.sudo
+    - role: skleinjung.core.users
+    - role: skleinjung.core.sshd
+    - role: skleinjung.core.docker
+    - role: skleinjung.core.postgres
