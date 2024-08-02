@@ -38,3 +38,6 @@
 
 - name: Include plays for nextcloud servers
   ansible.builtin.import_playbook: playbooks/nextcloud/provision-nextcloud-servers.yml
+
+- name: Include plays for terraform state backends servers
+  ansible.builtin.import_playbook: playbooks/terraform-state-backend/configure.yml
