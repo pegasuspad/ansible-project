@@ -14,6 +14,8 @@ roles:
   version: 5.1.0
 - name: geerlingguy.nodejs
   version: 6.1.1
+- name: geerlingguy.pip
+  version: 3.0.3
 - name: nginxinc.nginx
   version: 0.24.3
 - name: roles-ansible.restic
