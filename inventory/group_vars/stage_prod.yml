@@ -1,3 +1,13 @@
 # config-manager role
 config_manager_repository_path: prod.yml
 config_manager_vault_id: prod
+
+# sshd options
+sshd_enabled: true
+# note: sshd is disabled by default, so these options are only applied if sshd_enabled is overridden elsewhere
+sshd_users:
+  - authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOT7hR5cbwyrOfcEdjhrepLec8CBsfaPQexbotN+hUoz Sean Kleinjung
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO1NsV1++UEBvGxN4IzWleJL1mCo9+ipfJ8w1NE2pCR3 skleinjung@node
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICTYNclKyFvxBVdlCJ99SKJ4AOZuEAXITFt58gsNspzW sean@prod-ansible
+    username: sean

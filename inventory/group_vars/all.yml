@@ -1,13 +1,4 @@
 aptcachetime: 3600
 
-# sshd options
-sshd_enabled: true
-# note: sshd is disabled by default, so these options are only applied if sshd_enabled is overridden elsewhere
-sshd_users:
-  - authorized_keys:
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOT7hR5cbwyrOfcEdjhrepLec8CBsfaPQexbotN+hUoz Sean Kleinjung
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO1NsV1++UEBvGxN4IzWleJL1mCo9+ipfJ8w1NE2pCR3 skleinjung@node
-    username: sean
-
 # sudo options
 sudo_allow_passwordless: true
