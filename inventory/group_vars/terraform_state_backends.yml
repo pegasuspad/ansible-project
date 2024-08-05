@@ -6,3 +6,9 @@ postgres_ssl:
   crt: "{{ __vault__.terraform_state_backend.postgres_ssl.crt }}"
   enabled: true
   key: "{{ __vault__.terraform_state_backend.postgres_ssl.key }}"
+postgres_uid: 47000
+
+# users options
+users_extra:
+  - uid: 47000
+    username: postgres
