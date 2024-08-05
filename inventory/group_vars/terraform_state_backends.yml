@@ -10,5 +10,8 @@ postgres_uid: 47000
 
 # users options
 users_extra:
-  - uid: 47000
+  - system: true
+    uid: 47000
     username: postgres
+  - groups: ["docker"]
+    username: sean
