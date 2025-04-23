@@ -2,6 +2,7 @@ stage_prod:
   children:
     ansible_control_nodes:
       hosts:
+        prod-ansible:
         prod-ansible-blue:
         prod-ansible-green:
       vars:
